@@ -1,0 +1,48 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Model {
+  id        Int      @id @default(autoincrement())
+  name      String   @unique
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  chats     Chat[]
+}
+
+model Chat {
+  id        Int       @id @default(autoincrement())
+  name      String    @default("")
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  model     Model     @relation(fields: [modelId], references: [id])
+  modelId   Int
+  messages  Message[]
+}
+
+model Message {
+  id        Int           @id @default(autoincrement())
+  createdAt DateTime      @default(now())
+  updatedAt DateTime      @updatedAt
+  text      String
+  author    MessageAuthor
+  status    MessageStatus
+  chat      Chat          @relation(fields: [chatId], references: [id])
+  chatId    Int
+}
+
+enum MessageAuthor {
+  USER
+  MODEL
+}
+
+enum MessageStatus {
+  COMPLETE
+  PENDING
+}

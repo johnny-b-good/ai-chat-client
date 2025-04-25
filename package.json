@@ -11,11 +11,14 @@
   "dependencies": {
     "@headlessui/react": "^2.2.2",
     "@heroicons/react": "^2.2.0",
+    "@prisma/client": "^6.6.0",
     "clsx": "^2.1.1",
     "next": "15.3.1",
+    "ollama": "^0.5.15",
     "prettier-plugin-tailwindcss": "^0.6.11",
     "react": "^19.0.0",
-    "react-dom": "^19.0.0"
+    "react-dom": "^19.0.0",
+    "zod": "^3.24.3"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",
@@ -28,6 +31,7 @@
     "eslint": "^9",
     "eslint-config-next": "15.3.1",
     "prettier": "3.5.3",
+    "prisma": "^6.6.0",
     "tailwindcss": "^4",
     "typescript": "^5"
   }

@@ -1,1 +1,19 @@
 @import "tailwindcss";
+
+@layer utilities {
+  .scrollbar::-webkit-scrollbar {
+    @apply h-2 w-2;
+  }
+
+  .scrollbar::-webkit-scrollbar-track {
+    @apply rounded-full bg-slate-100;
+  }
+
+  .scrollbar::-webkit-scrollbar-thumb {
+    @apply rounded-full bg-slate-300;
+  }
+
+  .scrollbar::-webkit-scrollbar-thumb:hover {
+    @apply bg-slate-400;
+  }
+}
