@@ -1,6 +1,6 @@
 "use client";
 
-import type { FC } from "react";
+import { type FC, useRef, useEffect } from "react";
 import { type Message as SdkMessage, useChat } from "@ai-sdk/react";
 
 import {
@@ -25,12 +25,19 @@ export const ChatUi: FC<ChatUiProps> = ({
   const { input, handleInputChange, handleSubmit, messages } = useChat({
     id: chatId,
     initialMessages,
-    // sendExtraMessageFields: true,
   });
+
+  const listRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (listRef.current) {
+      listRef.current.scrollTo(0, listRef.current.scrollHeight);
+    }
+  }, [messages]);
 
   return (
     <ChatLayout>
-      <MessageList>
+      <MessageList ref={listRef}>
         {messages.map((message) => {
           return (
             <MessageBubble
