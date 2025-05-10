@@ -1,10 +1,6 @@
-import {
-  MessageBubble,
-  ChatLayout,
-  MessageForm,
-  MessageList,
-  EmptyMessageList,
-} from "./ui";
+import { type Message as SdkMessage } from "@ai-sdk/react";
+
+import { ChatUi } from "./ui";
 import prisma from "@/app/lib/prisma";
 
 export default async function ChatPage(props: {
@@ -15,9 +11,10 @@ export default async function ChatPage(props: {
 
   const chat = await prisma.chat.findFirstOrThrow({
     where: { id },
-    include: {
-      model: true,
-    },
+  });
+
+  const model = await prisma.model.findFirstOrThrow({
+    where: { id: chat.modelId },
   });
 
   const messages = await prisma.message.findMany({
@@ -26,24 +23,18 @@ export default async function ChatPage(props: {
     },
   });
 
+  const initialMessages: SdkMessage[] = messages.map((message) => ({
+    id: message.id.toString(),
+    content: message.text,
+    createdAt: message.createdAt,
+    role: message.author === "USER" ? "user" : "assistant",
+  }));
+
   return (
-    <ChatLayout>
-      <MessageList>
-        {messages.map((message) => {
-          return (
-            <MessageBubble
-              key={message.id}
-              author={message.author === "MODEL" ? chat.model.name : "You"}
-              authorType={message.author === "MODEL" ? "ai" : "user"}
-              text={message.text}
-            />
-          );
-        })}
-
-        {messages.length === 0 && <EmptyMessageList />}
-      </MessageList>
-
-      <MessageForm />
-    </ChatLayout>
+    <ChatUi
+      chatId={chat.id.toString()}
+      modelName={model.name}
+      initialMessages={initialMessages}
+    />
   );
 }

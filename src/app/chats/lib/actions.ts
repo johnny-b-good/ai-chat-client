@@ -69,6 +69,6 @@ export const createNewChat = async (
     return { message: "Chat creation error" };
   }
 
-  revalidatePath("/");
+  revalidatePath("/chats");
   redirect(`/chats/${newChatId}`);
 };
