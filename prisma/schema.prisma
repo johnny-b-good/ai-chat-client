@@ -18,31 +18,26 @@ model Model {
 
 model Chat {
   id        Int       @id @default(autoincrement())
-  name      String    @default("")
+  name      String
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
-  model     Model     @relation(fields: [modelId], references: [id])
+  model     Model     @relation(fields: [modelId], references: [id], onDelete: Cascade)
   modelId   Int
   messages  Message[]
 }
 
 model Message {
-  id        Int           @id @default(autoincrement())
-  createdAt DateTime      @default(now())
-  updatedAt DateTime      @updatedAt
-  text      String
-  author    MessageAuthor
-  status    MessageStatus
-  chat      Chat          @relation(fields: [chatId], references: [id])
+  id        Int         @id @default(autoincrement())
+  createdAt DateTime    @default(now())
+  parts     Json
+  role      MessageRole
+  chat      Chat        @relation(fields: [chatId], references: [id], onDelete: Cascade)
   chatId    Int
 }
 
-enum MessageAuthor {
-  USER
-  MODEL
-}
-
-enum MessageStatus {
-  COMPLETE
-  PENDING
+enum MessageRole {
+  system
+  user
+  assistant
+  data
 }

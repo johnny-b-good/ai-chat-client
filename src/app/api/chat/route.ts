@@ -3,21 +3,11 @@ import { z } from "zod";
 
 import { openai } from "@/app/lib/openai";
 import prisma from "@/app/lib/prisma";
-
-const textPartSchema = z.object({
-  text: z.string().min(1).max(2000),
-  type: z.enum(["text"]),
-});
+import { messageSchema, messagePartsSchema } from "@/app/lib/schemas";
 
 export const postRequestBodySchema = z.object({
   id: z.string(),
-  message: z.object({
-    id: z.string(),
-    createdAt: z.coerce.date(),
-    role: z.enum(["user"]),
-    content: z.string().min(1).max(2000),
-    parts: z.array(textPartSchema),
-  }),
+  message: messageSchema,
 });
 
 export type PostRequestBody = z.infer<typeof postRequestBodySchema>;
@@ -52,10 +42,10 @@ export async function POST(request: Request) {
   const messages = appendClientMessage({
     messages: previousMessages.map((message) => ({
       id: message.id.toString(),
-      parts: JSON.parse(message.text),
+      parts: messagePartsSchema.parse(message.parts),
       content: "",
       createdAt: message.createdAt,
-      role: message.author === "USER" ? "user" : "assistant",
+      role: message.role,
     })),
     message,
   });
@@ -63,9 +53,8 @@ export async function POST(request: Request) {
   await prisma.message.create({
     data: {
       chatId: chat.id,
-      author: "USER",
-      text: JSON.stringify(message.parts),
-      status: "COMPLETE",
+      role: "user",
+      parts: message.parts,
     },
   });
 
@@ -81,9 +70,11 @@ export async function POST(request: Request) {
       await prisma.message.create({
         data: {
           chatId: chat.id,
-          author: "MODEL",
-          text: JSON.stringify(assistantMessage.parts),
-          status: "COMPLETE",
+          role: "assistant",
+          parts: messagePartsSchema.parse(
+            assistantMessage.parts?.filter((part) => part.type === "text") ??
+              [],
+          ),
         },
       });
     },

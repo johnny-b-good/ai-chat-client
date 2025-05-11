@@ -2,6 +2,7 @@ import { type UIMessage } from "ai";
 
 import { ChatUi } from "./ui";
 import prisma from "@/app/lib/prisma";
+import { messagePartsSchema } from "@/app/lib/schemas";
 
 export default async function ChatPage(props: {
   params: Promise<{ id: string }>;
@@ -25,10 +26,10 @@ export default async function ChatPage(props: {
 
   const initialMessages: UIMessage[] = messages.map((message) => ({
     id: message.id.toString(),
-    parts: JSON.parse(message.text),
+    parts: messagePartsSchema.parse(message.parts),
     content: "",
     createdAt: message.createdAt,
-    role: message.author === "USER" ? "user" : "assistant",
+    role: message.role,
   }));
 
   return (
