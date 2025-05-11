@@ -1,4 +1,4 @@
-import { type Message as SdkMessage } from "@ai-sdk/react";
+import { type UIMessage } from "ai";
 
 import { ChatUi } from "./ui";
 import prisma from "@/app/lib/prisma";
@@ -23,9 +23,10 @@ export default async function ChatPage(props: {
     },
   });
 
-  const initialMessages: SdkMessage[] = messages.map((message) => ({
+  const initialMessages: UIMessage[] = messages.map((message) => ({
     id: message.id.toString(),
-    content: message.text,
+    parts: JSON.parse(message.text),
+    content: "",
     createdAt: message.createdAt,
     role: message.author === "USER" ? "user" : "assistant",
   }));

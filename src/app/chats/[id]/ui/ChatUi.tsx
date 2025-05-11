@@ -1,7 +1,8 @@
 "use client";
 
 import { type FC, useRef, useEffect } from "react";
-import { type Message as SdkMessage, useChat } from "@ai-sdk/react";
+import { useChat } from "@ai-sdk/react";
+import type { UIMessage } from "ai";
 
 import {
   MessageList,
@@ -10,21 +11,26 @@ import {
   ChatLayout,
   EmptyMessageList,
 } from ".";
+import Image from "next/image";
 
 export type ChatUiProps = {
   chatId: string;
   modelName: string;
-  initialMessages?: SdkMessage[];
+  initialMessages: UIMessage[];
 };
 
 export const ChatUi: FC<ChatUiProps> = ({
   chatId,
   modelName,
-  initialMessages = [],
+  initialMessages,
 }) => {
   const { input, handleInputChange, handleSubmit, messages } = useChat({
     id: chatId,
     initialMessages,
+    experimental_prepareRequestBody: (body) => ({
+      id: chatId,
+      message: body.messages.at(-1),
+    }),
   });
 
   const listRef = useRef<HTMLDivElement>(null);
@@ -44,7 +50,26 @@ export const ChatUi: FC<ChatUiProps> = ({
               key={message.id}
               author={message.role === "assistant" ? modelName : "You"}
               authorType={message.role === "assistant" ? "ai" : "user"}
-              text={message.content}
+              text={message.parts.map((part, i) => {
+                switch (part.type) {
+                  case "text":
+                    return <p key={i}>{part.text}</p>;
+                  case "source":
+                    return <p key={i}>{part.source.url}</p>;
+                  case "reasoning":
+                    return <div key={i}>{part.reasoning}</div>;
+                  case "tool-invocation":
+                    return <div key={i}>{part.toolInvocation.toolName}</div>;
+                  case "file":
+                    return (
+                      <Image
+                        key={i}
+                        src={`data:${part.mimeType};base64,${part.data}`}
+                        alt=""
+                      />
+                    );
+                }
+              })}
             />
           );
         })}

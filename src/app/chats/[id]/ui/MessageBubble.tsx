@@ -1,8 +1,8 @@
-import type { FC } from "react";
+import type { FC, ReactNode } from "react";
 import clsx from "clsx";
 
 export type MessageBubbleProps = {
-  text: string;
+  text: ReactNode;
   author: string;
   authorType: "user" | "ai";
 };
