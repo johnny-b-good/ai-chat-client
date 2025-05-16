@@ -1,13 +1,17 @@
 import type { FC, ReactNode } from "react";
 
 export type ChatLayoutProps = {
-  children: ReactNode;
+  header: ReactNode;
+  body: ReactNode;
 };
 
-export const ChatLayout: FC<ChatLayoutProps> = ({ children }) => {
+export const ChatLayout: FC<ChatLayoutProps> = ({ header, body }) => {
   return (
-    <div className="mx-auto grid h-dvh w-150 grid-cols-1 grid-rows-[1fr_min-content] flex-col border-r border-b border-l border-slate-300 bg-slate-200">
-      {children}
+    <div className="grid h-dvh grid-cols-1 grid-rows-[min-content_1fr]">
+      {header}
+      <div className="mx-auto grid min-h-0 w-full grid-cols-1 grid-rows-[1fr_auto] gap-4 py-4 pr-1 pl-4 sm:w-150">
+        {body}
+      </div>
     </div>
   );
 };

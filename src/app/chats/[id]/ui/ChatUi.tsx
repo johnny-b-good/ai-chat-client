@@ -10,6 +10,7 @@ import {
   MessageForm,
   ChatLayout,
   EmptyMessageList,
+  ChatHeader,
 } from ".";
 import Image from "next/image";
 
@@ -42,46 +43,54 @@ export const ChatUi: FC<ChatUiProps> = ({
   }, [messages]);
 
   return (
-    <ChatLayout>
-      <MessageList ref={listRef}>
-        {messages.map((message) => {
-          return (
-            <MessageBubble
-              key={message.id}
-              author={message.role === "assistant" ? modelName : "You"}
-              authorType={message.role === "assistant" ? "ai" : "user"}
-              text={message.parts.map((part, i) => {
-                switch (part.type) {
-                  case "text":
-                    return <p key={i}>{part.text}</p>;
-                  case "source":
-                    return <p key={i}>{part.source.url}</p>;
-                  case "reasoning":
-                    return <div key={i}>{part.reasoning}</div>;
-                  case "tool-invocation":
-                    return <div key={i}>{part.toolInvocation.toolName}</div>;
-                  case "file":
-                    return (
-                      <Image
-                        key={i}
-                        src={`data:${part.mimeType};base64,${part.data}`}
-                        alt=""
-                      />
-                    );
-                }
-              })}
-            />
-          );
-        })}
+    <ChatLayout
+      header={<ChatHeader modelName={modelName} />}
+      body={
+        <>
+          <MessageList ref={listRef}>
+            {messages.map((message) => {
+              return (
+                <MessageBubble
+                  key={message.id}
+                  author={message.role === "assistant" ? modelName : "You"}
+                  authorType={message.role === "assistant" ? "ai" : "user"}
+                  createdAt={message.createdAt}
+                  text={message.parts.map((part, i) => {
+                    switch (part.type) {
+                      case "text":
+                        return <p key={i}>{part.text}</p>;
+                      case "source":
+                        return <p key={i}>{part.source.url}</p>;
+                      case "reasoning":
+                        return <div key={i}>{part.reasoning}</div>;
+                      case "tool-invocation":
+                        return (
+                          <div key={i}>{part.toolInvocation.toolName}</div>
+                        );
+                      case "file":
+                        return (
+                          <Image
+                            key={i}
+                            src={`data:${part.mimeType};base64,${part.data}`}
+                            alt=""
+                          />
+                        );
+                    }
+                  })}
+                />
+              );
+            })}
 
-        {messages.length === 0 && <EmptyMessageList />}
-      </MessageList>
+            {messages.length === 0 && <EmptyMessageList />}
+          </MessageList>
 
-      <MessageForm
-        value={input}
-        onChange={handleInputChange}
-        onSubmit={handleSubmit}
-      />
-    </ChatLayout>
+          <MessageForm
+            value={input}
+            onChange={handleInputChange}
+            onSubmit={handleSubmit}
+          />
+        </>
+      }
+    />
   );
 };

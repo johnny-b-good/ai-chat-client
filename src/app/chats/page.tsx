@@ -1,29 +1,19 @@
 import ollama from "ollama";
 import prisma from "@/app/lib/prisma";
-import NextLink from "next/link";
 
-import { ChatCreationForm } from "./ui";
+import { ChatCreationForm, ChatsTable, ChatsHeader } from "./ui";
 
 export default async function ChatListPage() {
   const { models } = await ollama.list();
-  const chats = await prisma.chat.findMany();
+  const chats = await prisma.chat.findMany({ include: { model: true } });
 
   return (
-    <div>
-      <h1 className="text-xl">Models</h1>
-      <ChatCreationForm models={models} />
+    <div className="grid h-dvh grid-cols-1 grid-rows-[min-content_1fr]">
+      <ChatsHeader>Recent chats</ChatsHeader>
+      <div className="mx-auto grid w-full grid-cols-1 grid-rows-[min-content_1fr] gap-4 p-4 sm:w-150">
+        <ChatCreationForm models={models} />
 
-      <h1 className="text-xl">Chats</h1>
-      <div>
-        {chats.map((chat) => {
-          return (
-            <div key={chat.id}>
-              <NextLink href={`/chats/${chat.id}`}>{chat.name}</NextLink>
-            </div>
-          );
-        })}
-
-        {chats.length === 0 && <div>No chats</div>}
+        <ChatsTable chats={chats} />
       </div>
     </div>
   );

@@ -3,6 +3,7 @@ import clsx from "clsx";
 
 export type MessageBubbleProps = {
   text: ReactNode;
+  createdAt?: Date;
   author: string;
   authorType: "user" | "ai";
 };
@@ -10,14 +11,20 @@ export type MessageBubbleProps = {
 export const MessageBubble: FC<MessageBubbleProps> = ({
   text,
   author,
+  // createdAt,
   authorType,
 }) => {
   return (
-    <div className={clsx("rounded-sm bg-slate-50 px-4 py-2 text-sm shadow")}>
+    <div
+      className={clsx(
+        "relative mt-5 max-w-11/12 rounded-sm px-3 py-2 text-sm shadow",
+        authorType === "ai" ? "self-start bg-slate-50" : "self-end bg-blue-50",
+      )}
+    >
       <div
         className={clsx(
-          "mb-1 font-semibold",
-          authorType === "user" ? "text-sky-700" : "text-red-700",
+          "text-shadow absolute -top-5 text-xs text-slate-600",
+          authorType === "ai" ? "left-0" : "right-0",
         )}
       >
         {author}
