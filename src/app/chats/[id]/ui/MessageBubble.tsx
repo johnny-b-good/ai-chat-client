@@ -29,7 +29,7 @@ export const MessageBubble: FC<MessageBubbleProps> = ({
       >
         {author}
       </div>
-      {text}
+      <div className="prose prose-slate prose-sm">{text}</div>
     </div>
   );
 };

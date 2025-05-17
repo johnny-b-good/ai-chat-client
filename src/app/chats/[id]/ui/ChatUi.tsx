@@ -3,6 +3,7 @@
 import { type FC, useRef, useEffect } from "react";
 import { useChat } from "@ai-sdk/react";
 import type { UIMessage } from "ai";
+import Markdown from "react-markdown";
 
 import {
   MessageList,
@@ -58,9 +59,9 @@ export const ChatUi: FC<ChatUiProps> = ({
                   text={message.parts.map((part, i) => {
                     switch (part.type) {
                       case "text":
-                        return <p key={i}>{part.text}</p>;
+                        return <Markdown key={i}>{part.text}</Markdown>;
                       case "source":
-                        return <p key={i}>{part.source.url}</p>;
+                        return <div key={i}>{part.source.url}</div>;
                       case "reasoning":
                         return <div key={i}>{part.reasoning}</div>;
                       case "tool-invocation":
