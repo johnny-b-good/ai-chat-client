@@ -9,10 +9,8 @@ export type MessageListProps = {
 
 export const MessageList: FC<MessageListProps> = ({ children, ref }) => {
   return (
-    <ScrollArea className="h-full min-h-0 w-full">
-      <div ref={ref} className="flex flex-col items-start gap-4 p-4">
-        {children}
-      </div>
+    <ScrollArea className="h-full min-h-0 w-full" ref={ref}>
+      <div className="flex flex-col items-start gap-4 p-4">{children}</div>
     </ScrollArea>
   );
 };
