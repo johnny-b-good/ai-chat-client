@@ -5,3 +5,6 @@ export * from "./separator";
 export * from "./avatar";
 export * from "./textarea";
 export * from "./scroll-area";
+export * from "./input";
+export * from "./label";
+export * from "./alert";

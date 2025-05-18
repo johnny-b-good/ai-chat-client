@@ -17,13 +17,15 @@ model Model {
 }
 
 model Chat {
-  id        Int       @id @default(autoincrement())
-  name      String
-  createdAt DateTime  @default(now())
-  updatedAt DateTime  @updatedAt
-  model     Model     @relation(fields: [modelId], references: [id], onDelete: Cascade)
-  modelId   Int
-  messages  Message[]
+  id          Int        @id @default(autoincrement())
+  name        String
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+  model       Model      @relation(fields: [modelId], references: [id], onDelete: Cascade)
+  modelId     Int
+  messages    Message[]
+  character   Character? @relation(fields: [characterId], references: [id], onDelete: Cascade)
+  characterId Int?
 }
 
 model Message {
@@ -40,4 +42,14 @@ enum MessageRole {
   user
   assistant
   data
+}
+
+model Character {
+  id           Int      @id @default(autoincrement())
+  name         String   @unique
+  systemPrompt String
+  avatarBase64 String?
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+  chats        Chat[]
 }

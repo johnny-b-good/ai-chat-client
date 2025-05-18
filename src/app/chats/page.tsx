@@ -10,6 +10,7 @@ export default async function ChatListPage() {
   return (
     <div className="grid h-dvh grid-cols-1 grid-rows-[min-content_1fr]">
       <ChatsHeader>Recent chats</ChatsHeader>
+      
       <div className="mx-auto grid w-full grid-cols-1 grid-rows-[min-content_1fr] gap-4 p-4 sm:w-150">
         <ChatCreationForm models={models} />
 
