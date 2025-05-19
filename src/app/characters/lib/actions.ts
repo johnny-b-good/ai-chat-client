@@ -5,6 +5,7 @@ import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 
 import prisma from "@/app/lib/prisma";
+import { Character } from "@/generated/prisma";
 
 const CharacterEditorFormSchema = z.object({
   name: z.string().min(1, "Name is required").max(100),
@@ -42,7 +43,7 @@ export const createCharacter = async (
 
   const avatarBase64 = avatarFile
     ? Buffer.from(await avatarFile.arrayBuffer()).toString("base64")
-    : undefined;
+    : null;
 
   try {
     await prisma.character.create({
@@ -82,16 +83,21 @@ export const updateCharacter = async (
 
   const avatarBase64 = avatarFile
     ? Buffer.from(await avatarFile.arrayBuffer()).toString("base64")
-    : undefined;
+    : null;
+
+  const data: Partial<Character> = {
+    name,
+    systemPrompt,
+  };
+
+  if (avatarFile && avatarFile.size > 0) {
+    data.avatarBase64 = avatarBase64;
+  }
 
   try {
     await prisma.character.update({
       where: { id },
-      data: {
-        name,
-        systemPrompt,
-        avatarBase64,
-      },
+      data,
     });
   } catch {
     return { message: "Character update error" };
