@@ -48,3 +48,4 @@ dev.db-journal
 
 # editor
 .vscode/
+.aider*

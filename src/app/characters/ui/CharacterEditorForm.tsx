@@ -40,7 +40,10 @@ export const CharacterEditorForm: FC<CharacterEditorFormProps> = ({
   const [state, formAction] = useActionState(action, initialState);
 
   return (
-    <Form action={formAction} className="flex flex-col gap-4">
+    <Form
+      action={formAction}
+      className="flex flex-col gap-4 rounded bg-white px-4 py-4 shadow"
+    >
       {state.message && (
         <Alert variant="destructive">
           <AlertCircle className="size-6" />
@@ -49,7 +52,7 @@ export const CharacterEditorForm: FC<CharacterEditorFormProps> = ({
         </Alert>
       )}
 
-      <div>
+      <div className="grid gap-2">
         <Label htmlFor="name">Name</Label>
         <Input id="name" name="name" required defaultValue={character?.name} />
         {state.errors?.name && (
@@ -57,7 +60,7 @@ export const CharacterEditorForm: FC<CharacterEditorFormProps> = ({
         )}
       </div>
 
-      <div>
+      <div className="grid gap-2">
         <Label htmlFor="systemPrompt">System prompt</Label>
         <Textarea
           id="systemPrompt"
@@ -71,12 +74,8 @@ export const CharacterEditorForm: FC<CharacterEditorFormProps> = ({
       </div>
 
       {character?.avatarBase64 && (
-        <div>
+        <div className="grid gap-2">
           <Label>Current avatar</Label>
-          {/* <img
-            src={`data:image/png;base64,${character.avatarBase64}`}
-            alt={character.name}
-          /> */}
           <Avatar>
             <AvatarImage
               src={`data:image/png;base64,${character.avatarBase64}`}
@@ -87,7 +86,7 @@ export const CharacterEditorForm: FC<CharacterEditorFormProps> = ({
         </div>
       )}
 
-      <div>
+      <div className="grid gap-2">
         <Label htmlFor="avatarFile">New avatar</Label>
         <Input type="file" id="avatarFile" name="avatarFile" />
         {state.errors?.systemPrompt && (

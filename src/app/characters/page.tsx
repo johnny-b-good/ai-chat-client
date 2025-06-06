@@ -1,14 +1,17 @@
 import prisma from "@/app/lib/prisma";
 
-import { CharactersHeader, CharactersTable } from "./ui";
+import { CharactersTable } from "./ui";
+import { PageWithHeader, Body, Header, BackButton } from "@/app/ui";
 
 export default async function CharacterListPage() {
   const characters = await prisma.character.findMany();
 
   return (
-    <div className="grid h-dvh grid-cols-1 grid-rows-[min-content_1fr]">
-      <CharactersHeader />
-      <CharactersTable characters={characters} />
-    </div>
+    <PageWithHeader>
+      <Header left={<BackButton href="/" />}>Characters</Header>
+      <Body>
+        <CharactersTable characters={characters} />
+      </Body>
+    </PageWithHeader>
   );
 }

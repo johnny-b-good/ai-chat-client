@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 
 import { CharacterEditorForm } from "@/app/characters/ui";
 import { updateCharacter } from "@/app/characters/lib/actions";
+import { PageWithHeader, Body, Header, BackButton } from "@/app/ui";
 
 export default async function CharacterEditPage(props: {
   params: Promise<{ id: string }>;
@@ -21,11 +22,16 @@ export default async function CharacterEditPage(props: {
   const updateCharacterWithId = updateCharacter.bind(null, id);
 
   return (
-    <div>
-      <CharacterEditorForm
-        character={character}
-        action={updateCharacterWithId}
-      />
-    </div>
+    <PageWithHeader>
+      <Header left={<BackButton href="/characters" />}>
+        Edit {character.name}
+      </Header>
+      <Body>
+        <CharacterEditorForm
+          character={character}
+          action={updateCharacterWithId}
+        />
+      </Body>
+    </PageWithHeader>
   );
 }

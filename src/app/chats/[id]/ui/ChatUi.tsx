@@ -4,6 +4,7 @@ import { type FC, useRef, useEffect } from "react";
 import { useChat } from "@ai-sdk/react";
 import type { UIMessage } from "ai";
 import Markdown from "react-markdown";
+import Image from "next/image";
 
 import {
   MessageList,
@@ -13,7 +14,6 @@ import {
   EmptyMessageList,
   ChatHeader,
 } from ".";
-import Image from "next/image";
 
 export type ChatUiProps = {
   chatId: string;
