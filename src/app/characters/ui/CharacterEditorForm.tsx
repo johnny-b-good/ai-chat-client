@@ -95,8 +95,8 @@ export const CharacterEditorForm: FC<CharacterEditorFormProps> = ({
       </div>
 
       <div className="flex justify-end gap-4">
+        <Button variant="outline">Cancel</Button>
         <Button type="submit">Save</Button>
-        <Button>Cancel</Button>
       </div>
     </Form>
   );
