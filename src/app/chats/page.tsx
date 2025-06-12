@@ -11,11 +11,14 @@ export default async function ChatListPage() {
 
   return (
     <PageWithHeader>
-      <Header left={<BackButton href="/" />}>Chats</Header>
+      <Header
+        left={<BackButton href="/" />}
+        right={<ChatCreationForm models={models} characters={characters} />}
+      >
+        Chats
+      </Header>
 
-      <Body className="grid grid-cols-1 grid-rows-[min-content_1fr] gap-4">
-        <ChatCreationForm models={models} characters={characters} />
-
+      <Body className="grid grid-cols-1 grid-rows-[1fr] gap-4">
         <ChatsTable chats={chats} />
       </Body>
     </PageWithHeader>

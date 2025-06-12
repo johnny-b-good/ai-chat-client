@@ -2,6 +2,7 @@
 
 import { useActionState, type FC } from "react";
 import { type ModelResponse } from "ollama";
+import { Plus } from "lucide-react";
 
 import {
   Button,
@@ -43,7 +44,9 @@ export const ChatCreationForm: FC<ChatCreationFormProps> = ({
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button variant="outline">New chat</Button>
+        <Button variant="ghost">
+          <Plus className="size-6 text-slate-500" /> New chat
+        </Button>
       </DialogTrigger>
 
       <DialogContent>
@@ -55,11 +58,11 @@ export const ChatCreationForm: FC<ChatCreationFormProps> = ({
             </DialogDescription>
           </DialogHeader>
 
-          <div className="grid gap-4">
-            <div className="grid gap-3">
+          <div className="grid gap-4 py-4">
+            <div className="grid gap-2">
               <Label htmlFor="model">Model</Label>
               <Select name="model" required>
-                <SelectTrigger className="flex-1 bg-white">
+                <SelectTrigger className="w-full">
                   <SelectValue placeholder="Select a model" />
                 </SelectTrigger>
                 <SelectContent>
@@ -74,10 +77,10 @@ export const ChatCreationForm: FC<ChatCreationFormProps> = ({
               </Select>
             </div>
 
-            <div className="grid gap-3">
+            <div className="grid gap-2">
               <Label htmlFor="character">Character</Label>
               <Select name="character">
-                <SelectTrigger className="flex-1 bg-white">
+                <SelectTrigger className="w-full">
                   <SelectValue placeholder="Select a character" />
                 </SelectTrigger>
                 <SelectContent>
