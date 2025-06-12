@@ -35,6 +35,10 @@ export async function POST(request: Request) {
     where: { id: chat.modelId },
   });
 
+  const character = await prisma.character.findUnique({
+    where: { id: chat.characterId ?? undefined },
+  });
+
   const previousMessages = await prisma.message.findMany({
     where: { chatId: chat.id },
   });
@@ -60,6 +64,7 @@ export async function POST(request: Request) {
 
   const result = streamText({
     model: openai(model.name),
+    system: character?.systemPrompt,
     messages,
     onFinish: async ({ response }) => {
       const [, assistantMessage] = appendResponseMessages({
