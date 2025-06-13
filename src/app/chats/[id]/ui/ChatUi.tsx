@@ -4,6 +4,9 @@ import { type FC, useRef, useEffect } from "react";
 import { useChat } from "@ai-sdk/react";
 import type { UIMessage } from "ai";
 import Markdown from "react-markdown";
+import Image from "next/image";
+
+import { type Character, type Model } from "@/generated/prisma";
 
 import {
   MessageList,
@@ -13,17 +16,18 @@ import {
   EmptyMessageList,
   ChatHeader,
 } from ".";
-import Image from "next/image";
 
 export type ChatUiProps = {
   chatId: string;
-  modelName: string;
+  model: Model;
+  character: Character | null;
   initialMessages: UIMessage[];
 };
 
 export const ChatUi: FC<ChatUiProps> = ({
   chatId,
-  modelName,
+  model,
+  character,
   initialMessages,
 }) => {
   const { input, handleInputChange, handleSubmit, messages } = useChat({
@@ -43,9 +47,11 @@ export const ChatUi: FC<ChatUiProps> = ({
     }
   }, [messages]);
 
+  const aiDisplayName = character?.name ?? model.name;
+
   return (
     <ChatLayout
-      header={<ChatHeader modelName={modelName} />}
+      header={<ChatHeader model={model} character={character} />}
       body={
         <>
           <MessageList ref={listRef}>
@@ -53,7 +59,7 @@ export const ChatUi: FC<ChatUiProps> = ({
               return (
                 <MessageBubble
                   key={message.id}
-                  author={message.role === "assistant" ? modelName : "You"}
+                  author={message.role === "assistant" ? aiDisplayName : "You"}
                   authorType={message.role === "assistant" ? "ai" : "user"}
                   createdAt={message.createdAt}
                   text={message.parts.map((part, i) => {

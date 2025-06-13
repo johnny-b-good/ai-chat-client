@@ -1,20 +1,26 @@
 import ollama from "ollama";
 import prisma from "@/app/lib/prisma";
 
-import { ChatCreationForm, ChatsTable, ChatsHeader } from "./ui";
+import { ChatCreationForm, ChatsTable } from "./ui";
+import { PageWithHeader, Body, Header, BackButton } from "@/app/ui";
 
 export default async function ChatListPage() {
   const { models } = await ollama.list();
   const chats = await prisma.chat.findMany({ include: { model: true } });
+  const characters = await prisma.character.findMany();
 
   return (
-    <div className="grid h-dvh grid-cols-1 grid-rows-[min-content_1fr]">
-      <ChatsHeader>Recent chats</ChatsHeader>
-      <div className="mx-auto grid w-full grid-cols-1 grid-rows-[min-content_1fr] gap-4 p-4 sm:w-150">
-        <ChatCreationForm models={models} />
+    <PageWithHeader>
+      <Header
+        left={<BackButton href="/" />}
+        right={<ChatCreationForm models={models} characters={characters} />}
+      >
+        Chats
+      </Header>
 
+      <Body className="grid grid-cols-1 grid-rows-[1fr] gap-4">
         <ChatsTable chats={chats} />
-      </div>
-    </div>
+      </Body>
+    </PageWithHeader>
   );
 }

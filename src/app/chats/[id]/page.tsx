@@ -18,6 +18,10 @@ export default async function ChatPage(props: {
     where: { id: chat.modelId },
   });
 
+  const character = await prisma.character.findUnique({
+    where: { id: chat.characterId ?? undefined },
+  });
+
   const messages = await prisma.message.findMany({
     where: {
       chatId: id,
@@ -35,7 +39,8 @@ export default async function ChatPage(props: {
   return (
     <ChatUi
       chatId={chat.id.toString()}
-      modelName={model.name}
+      model={model}
+      character={character}
       initialMessages={initialMessages}
     />
   );

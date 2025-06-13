@@ -15,6 +15,7 @@ export type NewChatFormState = {
 
 const NewChatFormSchema = z.object({
   model: z.string().min(1, "Required field"),
+  character: z.coerce.number().optional(),
 });
 
 export const createNewChat = async (
@@ -23,6 +24,7 @@ export const createNewChat = async (
 ): Promise<NewChatFormState> => {
   const validatedFields = NewChatFormSchema.safeParse({
     model: formData.get("model"),
+    character: formData.get("character"),
   });
 
   if (!validatedFields.success) {
@@ -32,7 +34,7 @@ export const createNewChat = async (
     };
   }
 
-  const { model: modelName } = validatedFields.data;
+  const { model: modelName, character: characterId } = validatedFields.data;
 
   const { models: ollamaModels } = await ollama.list();
 
@@ -56,9 +58,14 @@ export const createNewChat = async (
       update: {},
     });
 
+    const character = await prisma.character.findUnique({
+      where: { id: characterId },
+    });
+
     const chat = await prisma.chat.create({
       data: {
         modelId: model.id,
+        characterId: character?.id,
         name: "New chat",
       },
     });

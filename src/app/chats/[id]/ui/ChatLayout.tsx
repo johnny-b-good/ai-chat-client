@@ -1,5 +1,7 @@
 import type { FC, ReactNode } from "react";
 
+import { PageWithHeader, Body } from "@/app/ui";
+
 export type ChatLayoutProps = {
   header: ReactNode;
   body: ReactNode;
@@ -7,11 +9,9 @@ export type ChatLayoutProps = {
 
 export const ChatLayout: FC<ChatLayoutProps> = ({ header, body }) => {
   return (
-    <div className="grid h-dvh grid-cols-1 grid-rows-[min-content_1fr]">
+    <PageWithHeader>
       {header}
-      <div className="mx-auto grid min-h-0 w-full grid-cols-1 grid-rows-[1fr_auto] sm:w-150">
-        {body}
-      </div>
-    </div>
+      <Body className="grid grid-cols-1 grid-rows-[1fr_auto]">{body}</Body>
+    </PageWithHeader>
   );
 };
