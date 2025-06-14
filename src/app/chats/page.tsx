@@ -6,7 +6,9 @@ import { PageWithHeader, Body, Header, BackButton } from "@/app/ui";
 
 export default async function ChatListPage() {
   const { models } = await ollama.list();
-  const chats = await prisma.chat.findMany({ include: { model: true } });
+  const chats = await prisma.chat.findMany({
+    include: { model: true, character: true },
+  });
   const characters = await prisma.character.findMany();
 
   return (
