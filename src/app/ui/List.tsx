@@ -1,16 +1,9 @@
 import { type FC, type ReactNode } from "react";
 import Link from "next/link";
 
-import {
-  Button,
-  ScrollArea,
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuGroup,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuTrigger,
-} from "@/components/ui";
+import { ScrollArea } from "@/components/ui";
+
+import { MenuButton, type MenuButtonProps } from "./MenuButton";
 
 export type ListItem = {
   id: number;
@@ -20,15 +13,9 @@ export type ListItem = {
   description?: ReactNode;
 };
 
-export type ListItemAction = {
-  id: string;
-  label: ReactNode;
-  callback: (id: number) => void;
-};
-
 export type ListProps = {
   items: ListItem[];
-  itemActions?: ListItemAction[];
+  itemActions?: MenuButtonProps<number>["actions"];
 };
 
 export const List: FC<ListProps> = ({ items, itemActions }) => {
@@ -39,7 +26,7 @@ export const List: FC<ListProps> = ({ items, itemActions }) => {
           return (
             <div
               key={item.id}
-              className="grid grid-cols-[1fr_min-content] px-4 py-2 transition-colors not-last:border-b not-last:border-b-slate-300 hover:bg-slate-100"
+              className="grid grid-cols-[1fr_min-content] gap-4 px-4 py-2 transition-colors not-last:border-b not-last:border-b-slate-300 hover:bg-slate-100"
             >
               <Link
                 href={item.url}
@@ -55,28 +42,9 @@ export const List: FC<ListProps> = ({ items, itemActions }) => {
               </Link>
 
               {itemActions && (
-                <DropdownMenu>
-                  <DropdownMenuTrigger asChild>
-                    <Button variant="outline">Open</Button>
-                  </DropdownMenuTrigger>
-                  <DropdownMenuContent className="w-56" align="start">
-                    <DropdownMenuLabel>Actions</DropdownMenuLabel>
-                    <DropdownMenuGroup>
-                      {itemActions.map((action) => {
-                        return (
-                          <DropdownMenuItem
-                            key={action.id}
-                            onClick={() => {
-                              action.callback(item.id);
-                            }}
-                          >
-                            {action.label}
-                          </DropdownMenuItem>
-                        );
-                      })}
-                    </DropdownMenuGroup>
-                  </DropdownMenuContent>
-                </DropdownMenu>
+                <div className="self-center">
+                  <MenuButton context={item.id} actions={itemActions} />
+                </div>
               )}
             </div>
           );

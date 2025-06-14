@@ -1,6 +1,9 @@
+// "use client";
+
 import { type FC } from "react";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
+import { TrashIcon } from "lucide-react";
 
 import { Character, Chat, Model } from "@/generated/prisma";
 import { List, CharacterAvatar } from "@/app/ui";
@@ -31,6 +34,20 @@ export const ChatsTable: FC<ChatsTableProps> = ({ chats }) => {
         ),
         icon: <CharacterAvatar character={chat.character} />,
       }))}
+      itemActions={[
+        {
+          id: "delete",
+          label: (
+            <span className="inline-flex items-center gap-2">
+              <TrashIcon className="size-4 text-red-500" /> Удалить
+            </span>
+          ),
+          callback: async (id: number) => {
+            "use server";
+            console.log("Tried to delete", id);
+          },
+        },
+      ]}
     />
   );
 };
