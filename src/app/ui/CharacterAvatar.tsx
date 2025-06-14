@@ -9,7 +9,7 @@ export type CharacterAvatarProps = {
 
 export const CharacterAvatar: FC<CharacterAvatarProps> = ({ character }) => {
   return (
-    <Avatar>
+    <Avatar className="size-10 shadow">
       {character && character.avatarBase64 && (
         <AvatarImage
           src={`data:image/png;base64,${character.avatarBase64}`}
