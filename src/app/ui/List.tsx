@@ -26,7 +26,7 @@ export const List: FC<ListProps> = ({ items, itemActions }) => {
           return (
             <div
               key={item.id}
-              className="grid grid-cols-[1fr_min-content] gap-4 px-4 py-2 transition-colors not-last:border-b not-last:border-b-slate-300 hover:bg-slate-100"
+              className="grid grid-cols-[1fr_min-content] gap-4 border-b border-b-slate-300 px-4 py-2 transition-colors hover:bg-slate-100"
             >
               <Link
                 href={item.url}
