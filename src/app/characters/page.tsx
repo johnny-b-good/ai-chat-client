@@ -24,7 +24,7 @@ export default async function CharacterListPage() {
       >
         Characters
       </Header>
-      <Body className="grid grid-cols-1 grid-rows-[1fr] gap-4">
+      <Body className="flex flex-col">
         <CharactersList characters={characters} />
       </Body>
     </PageWithHeader>
