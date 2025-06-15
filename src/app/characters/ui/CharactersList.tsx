@@ -38,7 +38,7 @@ export const CharactersList: FC<CharactersListProps> = ({ characters }) => {
         items={characters.map((character) => ({
           id: character.id,
           name: character.name,
-          url: `/characters/${character.id}`,
+          url: `/characters/${character.id}/edit`,
           description: <div>{dayjs(character.updatedAt).fromNow()}</div>,
           icon: <CharacterAvatar character={character} />,
         }))}
