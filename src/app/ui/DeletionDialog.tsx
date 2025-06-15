@@ -20,8 +20,8 @@ export type DeletionDialogProps = {
   isOpen: boolean;
   onOpenChange: (isOpen: boolean) => void;
   onDelete: () => Promise<void>;
-  deletionSuccessMessage?: string;
-  deletionFailureMessage?: string;
+  successMessage?: string;
+  failureMessage?: string;
 };
 
 export const DeletionDialog: FC<DeletionDialogProps> = ({
@@ -30,8 +30,8 @@ export const DeletionDialog: FC<DeletionDialogProps> = ({
   isOpen,
   onOpenChange,
   onDelete,
-  deletionSuccessMessage,
-  deletionFailureMessage,
+  successMessage,
+  failureMessage,
 }) => {
   return (
     <Dialog open={isOpen} onOpenChange={onOpenChange}>
@@ -51,12 +51,12 @@ export const DeletionDialog: FC<DeletionDialogProps> = ({
             onClick={async () => {
               try {
                 await onDelete();
-                if (deletionSuccessMessage) {
-                  toast.info(deletionSuccessMessage);
+                if (successMessage) {
+                  toast.info(successMessage);
                 }
               } catch {
-                if (deletionFailureMessage) {
-                  toast.error(deletionFailureMessage);
+                if (failureMessage) {
+                  toast.error(failureMessage);
                 }
               } finally {
                 onOpenChange(false);

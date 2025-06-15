@@ -5,3 +5,4 @@ export * from "./BackButton";
 export * from "./List";
 export * from "./CharacterAvatar";
 export * from "./MenuButton";
+export * from "./DeletionDialog";

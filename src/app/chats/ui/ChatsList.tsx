@@ -4,20 +4,9 @@ import { type FC, useState } from "react";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 import { TrashIcon } from "lucide-react";
-import { toast } from "sonner";
 
 import { Character, Chat, Model } from "@/generated/prisma";
-import { List, CharacterAvatar } from "@/app/ui";
-import {
-  Dialog,
-  DialogClose,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-  Button,
-} from "@/components/ui";
+import { List, CharacterAvatar, DeletionDialog } from "@/app/ui";
 
 import { deleteChat } from "../lib/actions";
 
@@ -67,45 +56,21 @@ export const ChatsList: FC<ChatsListProps> = ({ chats }) => {
         ]}
       />
 
-      <Dialog
-        open={chatIdForDeletion !== null}
+      <DeletionDialog
+        title="Delete chat"
+        description="Do you really want to delete this chat?"
+        successMessage="The chat has been deleted"
+        failureMessage="Chat deletion error"
+        isOpen={chatIdForDeletion !== null}
         onOpenChange={() => {
           setChatIdForDeletion(null);
         }}
-      >
-        <DialogContent>
-          <DialogHeader>
-            <DialogTitle>Delete chat</DialogTitle>
-            <DialogDescription>
-              Do you really want to delete this chat?
-            </DialogDescription>
-          </DialogHeader>
-
-          <DialogFooter>
-            <DialogClose asChild>
-              <Button variant="outline">Cancel</Button>
-            </DialogClose>
-
-            <Button
-              variant="destructive"
-              onClick={async () => {
-                if (chatIdForDeletion !== null) {
-                  try {
-                    await deleteChat(chatIdForDeletion);
-                    toast.info("The chat has been deleted");
-                  } catch {
-                    toast.error("Chat deletion error");
-                  } finally {
-                    setChatIdForDeletion(null);
-                  }
-                }
-              }}
-            >
-              Delete
-            </Button>
-          </DialogFooter>
-        </DialogContent>
-      </Dialog>
+        onDelete={async () => {
+          if (chatIdForDeletion !== null) {
+            await deleteChat(chatIdForDeletion);
+          }
+        }}
+      />
     </>
   );
 };
