@@ -18,9 +18,11 @@ export default async function ChatPage(props: {
     where: { id: chat.modelId },
   });
 
-  const character = await prisma.character.findUnique({
-    where: { id: chat.characterId ?? undefined },
-  });
+  const character = chat.characterId
+    ? await prisma.character.findUnique({
+        where: { id: chat.characterId },
+      })
+    : null;
 
   const messages = await prisma.message.findMany({
     where: {

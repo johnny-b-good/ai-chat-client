@@ -1,12 +1,14 @@
 import ollama from "ollama";
 import prisma from "@/app/lib/prisma";
 
-import { ChatCreationForm, ChatsTable } from "./ui";
+import { ChatCreationForm, ChatsList } from "./ui";
 import { PageWithHeader, Body, Header, BackButton } from "@/app/ui";
 
 export default async function ChatListPage() {
   const { models } = await ollama.list();
-  const chats = await prisma.chat.findMany({ include: { model: true } });
+  const chats = await prisma.chat.findMany({
+    include: { model: true, character: true },
+  });
   const characters = await prisma.character.findMany();
 
   return (
@@ -18,8 +20,8 @@ export default async function ChatListPage() {
         Chats
       </Header>
 
-      <Body className="grid grid-cols-1 grid-rows-[1fr] gap-4">
-        <ChatsTable chats={chats} />
+      <Body className="flex flex-col">
+        <ChatsList chats={chats} />
       </Body>
     </PageWithHeader>
   );

@@ -10,15 +10,13 @@ import {
   Input,
   Textarea,
   Label,
-  Avatar,
-  AvatarImage,
-  AvatarFallback,
   Alert,
   AlertDescription,
   AlertTitle,
 } from "@/components/ui";
 import { Character } from "@/generated/prisma";
 import { type CharacterEditorFormState } from "@/app/characters/lib/actions";
+import { CharacterAvatar } from "@/app/ui";
 
 export type CharacterEditorFormProps = {
   action: (
@@ -76,13 +74,7 @@ export const CharacterEditorForm: FC<CharacterEditorFormProps> = ({
       {character?.avatarBase64 && (
         <div className="grid gap-2">
           <Label>Current avatar</Label>
-          <Avatar>
-            <AvatarImage
-              src={`data:image/png;base64,${character.avatarBase64}`}
-              alt={character.name}
-            />
-            <AvatarFallback>AI</AvatarFallback>
-          </Avatar>
+          <CharacterAvatar character={character} />
         </div>
       )}
 

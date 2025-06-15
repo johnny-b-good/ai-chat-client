@@ -58,9 +58,11 @@ export const createNewChat = async (
       update: {},
     });
 
-    const character = await prisma.character.findUnique({
-      where: { id: characterId },
-    });
+    const character = characterId
+      ? await prisma.character.findUnique({
+          where: { id: characterId },
+        })
+      : null;
 
     const chat = await prisma.chat.create({
       data: {
@@ -78,4 +80,14 @@ export const createNewChat = async (
 
   revalidatePath("/chats");
   redirect(`/chats/${newChatId}`);
+};
+
+export const deleteChat = async (id: number) => {
+  await prisma.chat.delete({
+    where: {
+      id,
+    },
+  });
+
+  revalidatePath("/chats");
 };

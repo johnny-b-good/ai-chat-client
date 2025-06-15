@@ -1,16 +1,31 @@
-import prisma from "@/app/lib/prisma";
+import { Plus } from "lucide-react";
+import Link from "next/link";
 
-import { CharactersTable } from "./ui";
+import prisma from "@/app/lib/prisma";
 import { PageWithHeader, Body, Header, BackButton } from "@/app/ui";
+import { Button } from "@/components/ui";
+
+import { CharactersList } from "./ui";
 
 export default async function CharacterListPage() {
   const characters = await prisma.character.findMany();
 
   return (
     <PageWithHeader>
-      <Header left={<BackButton href="/" />}>Characters</Header>
-      <Body>
-        <CharactersTable characters={characters} />
+      <Header
+        left={<BackButton href="/" />}
+        right={
+          <Button variant="ghost" asChild>
+            <Link href="/characters/create">
+              <Plus className="size-6 text-slate-500" /> Create
+            </Link>
+          </Button>
+        }
+      >
+        Characters
+      </Header>
+      <Body className="flex flex-col">
+        <CharactersList characters={characters} />
       </Body>
     </PageWithHeader>
   );
