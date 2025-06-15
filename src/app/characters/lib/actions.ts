@@ -106,3 +106,13 @@ export const updateCharacter = async (
   revalidatePath("/characters");
   redirect("/characters");
 };
+
+export const deleteCharacter = async (id: number) => {
+  await prisma.character.delete({
+    where: {
+      id,
+    },
+  });
+
+  revalidatePath("/characters");
+};

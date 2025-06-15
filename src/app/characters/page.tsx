@@ -1,6 +1,6 @@
 import prisma from "@/app/lib/prisma";
 
-import { CharactersTable } from "./ui";
+import { CharactersList } from "./ui";
 import { PageWithHeader, Body, Header, BackButton } from "@/app/ui";
 
 export default async function CharacterListPage() {
@@ -10,7 +10,7 @@ export default async function CharacterListPage() {
     <PageWithHeader>
       <Header left={<BackButton href="/" />}>Characters</Header>
       <Body>
-        <CharactersTable characters={characters} />
+        <CharactersList characters={characters} />
       </Body>
     </PageWithHeader>
   );

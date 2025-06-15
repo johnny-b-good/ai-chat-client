@@ -10,3 +10,4 @@ export * from "./label";
 export * from "./alert";
 export * from "./dialog";
 export * from "./dropdown-menu";
+export * from "./sonner";

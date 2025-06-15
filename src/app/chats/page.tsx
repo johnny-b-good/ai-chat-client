@@ -1,7 +1,7 @@
 import ollama from "ollama";
 import prisma from "@/app/lib/prisma";
 
-import { ChatCreationForm, ChatsTable } from "./ui";
+import { ChatCreationForm, ChatsList } from "./ui";
 import { PageWithHeader, Body, Header, BackButton } from "@/app/ui";
 
 export default async function ChatListPage() {
@@ -21,7 +21,7 @@ export default async function ChatListPage() {
       </Header>
 
       <Body className="grid grid-cols-1 grid-rows-[1fr] gap-4">
-        <ChatsTable chats={chats} />
+        <ChatsList chats={chats} />
       </Body>
     </PageWithHeader>
   );

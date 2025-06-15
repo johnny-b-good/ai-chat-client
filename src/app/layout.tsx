@@ -1,6 +1,8 @@
 import type { Metadata, Viewport } from "next";
 import "./globals.css";
 
+import { Toaster } from "@/components/ui";
+
 export const metadata: Metadata = {
   title: "Ollama client",
 };
@@ -18,7 +20,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className="bg-slate-100 text-slate-900 antialiased">
-      <body className="bg-slate-200">{children}</body>
+      <body className="bg-slate-200">
+        {children}
+        <Toaster />
+      </body>
     </html>
   );
 }

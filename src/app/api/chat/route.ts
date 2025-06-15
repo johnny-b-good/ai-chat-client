@@ -35,9 +35,11 @@ export async function POST(request: Request) {
     where: { id: chat.modelId },
   });
 
-  const character = await prisma.character.findUnique({
-    where: { id: chat.characterId ?? undefined },
-  });
+  const character = chat.characterId
+    ? await prisma.character.findUnique({
+        where: { id: chat.characterId },
+      })
+    : null;
 
   const previousMessages = await prisma.message.findMany({
     where: { chatId: chat.id },
