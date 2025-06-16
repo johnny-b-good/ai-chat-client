@@ -3,12 +3,13 @@
 import { type FC, useState } from "react";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
-import { TrashIcon } from "lucide-react";
+import { TrashIcon, PenIcon } from "lucide-react";
+import { toast } from "sonner";
 
 import { Character, Chat, Model } from "@/generated/prisma";
 import { List, CharacterAvatar, DeletionDialog } from "@/app/ui";
 
-import { deleteChat } from "../lib/actions";
+import { deleteChat, summarize } from "../lib/actions";
 
 dayjs.extend(relativeTime);
 
@@ -43,10 +44,26 @@ export const ChatsList: FC<ChatsListProps> = ({ chats }) => {
         }))}
         itemActions={[
           {
+            id: "summarize",
+            label: (
+              <span className="inline-flex items-center gap-2">
+                <PenIcon className="size-4" /> Summarize
+              </span>
+            ),
+            callback: async (id: number) => {
+              try {
+                await summarize(id);
+                toast.info("The chat summary is successfully generated");
+              } catch {
+                toast.error("Failed to generate chat summary");
+              }
+            },
+          },
+          {
             id: "delete",
             label: (
               <span className="inline-flex items-center gap-2">
-                <TrashIcon className="size-4 text-red-500" /> Удалить
+                <TrashIcon className="size-4 text-red-500" /> Delete
               </span>
             ),
             callback: (id: number) => {
