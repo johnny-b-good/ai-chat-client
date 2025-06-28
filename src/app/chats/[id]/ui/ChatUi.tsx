@@ -56,6 +56,7 @@ export const ChatUi: FC<ChatUiProps> = ({
     <ChatLayout
       header={
         <ChatHeader
+          chat={chat}
           model={model}
           character={character}
           onSummarizeMenuClick={() => {

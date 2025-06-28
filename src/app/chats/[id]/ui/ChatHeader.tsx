@@ -2,15 +2,17 @@ import { type FC } from "react";
 import { PenIcon } from "lucide-react";
 
 import { Header, BackButton, CharacterAvatar, MenuButton } from "@/app/ui";
-import { type Character, type Model } from "@/generated/prisma";
+import { type Character, type Model, type Chat } from "@/generated/prisma";
 
 export type ChatHeaderProps = {
+  chat: Chat;
   model: Model;
   character: Character | null;
   onSummarizeMenuClick: () => void;
 };
 
 export const ChatHeader: FC<ChatHeaderProps> = ({
+  chat,
   model,
   character,
   onSummarizeMenuClick,
@@ -35,18 +37,23 @@ export const ChatHeader: FC<ChatHeaderProps> = ({
         />
       }
     >
-      <div className="flex items-center gap-2">
+      <div className="grid w-full grid-cols-[min-content_1fr] items-center gap-4">
         <CharacterAvatar character={character} />
 
-        <div className="flex items-baseline gap-2">
+        <div className="flex min-w-0 flex-col justify-center text-sm">
           {character ? (
-            <>
-              <div className="text-lg">{character.name}</div>
-              <div className="text-xs text-slate-500">by {model.name}</div>
-            </>
+            <div>
+              <span>{character.name}</span>
+              <span className="text-slate-500"> by {model.name}</span>
+            </div>
           ) : (
-            <div className="text-lg">{model.name}</div>
+            <div>
+              <span>{model.name}</span>
+            </div>
           )}
+          <div className="truncate" title={chat.name}>
+            {chat.name}
+          </div>
         </div>
       </div>
     </Header>
