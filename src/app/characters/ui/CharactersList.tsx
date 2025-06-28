@@ -39,7 +39,7 @@ export const CharactersList: FC<CharactersListProps> = ({ characters }) => {
                 <TrashIcon className="size-4 text-red-500" /> Delete
               </span>
             ),
-            callback: (id: number) => {
+            callback: (id) => {
               setCharIdForDeletion(id);
             },
           },

@@ -5,10 +5,6 @@ import z from "zod";
 import ollama from "ollama";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
-import { generateObject } from "ai";
-
-import { openai } from "@/app/lib/openai";
-import { messagePartsSchema } from "@/app/lib/schemas";
 
 export type NewChatFormState = {
   errors?: {
@@ -90,72 +86,6 @@ export const deleteChat = async (id: number) => {
   await prisma.chat.delete({
     where: {
       id,
-    },
-  });
-
-  revalidatePath("/chats");
-};
-
-export const summarize = async (id: number) => {
-  const chat = await prisma.chat.findFirstOrThrow({
-    where: { id },
-    include: { character: true, model: true },
-  });
-  const messages = await prisma.message.findMany({ where: { chatId: id } });
-
-  const chatLog = messages
-    .map((message) => {
-      const messageText = messagePartsSchema
-        .parse(message.parts)
-        .map((part) => part.text)
-        .join("\n");
-
-      if (message.role === "user" || message.role === "assistant") {
-        const author =
-          message.role === "user"
-            ? "User"
-            : chat.character
-              ? chat.character.name
-              : `Model "${chat.model.name}"`;
-
-        return `${author} said at ${message.createdAt.toISOString()}:\n${messageText}`;
-      } else {
-        return null;
-      }
-    })
-    .filter((text) => text !== null)
-    .join("\n");
-
-  if (!process.env.SUMMARIZE_MODEL) {
-    throw new Error("Env variable SUMMARIZE_MODEL is not set");
-  }
-
-  const {
-    object: { name, summary },
-  } = await generateObject({
-    model: openai(process.env.SUMMARIZE_MODEL),
-    output: "object",
-    mode: "json",
-    schema: z.object({
-      name: z
-        .string()
-        .describe(
-          "A title suitable for this chat. Should be a single short sentence describing the topic of the chat containing maxiumum of ten words.",
-        ),
-      summary: z
-        .string()
-        .describe(
-          "A short summary describing topics, events, reactions that occured this chat. Summary should be a short paragraph, containing maximum of five sentences.",
-        ),
-    }),
-    prompt: `Generate a JSON object strictly following supplied schema for the following dialog:\n${chatLog}`,
-  });
-
-  await prisma.chat.update({
-    where: { id },
-    data: {
-      name,
-      summary,
     },
   });
 

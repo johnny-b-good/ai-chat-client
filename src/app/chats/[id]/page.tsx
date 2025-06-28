@@ -40,7 +40,7 @@ export default async function ChatPage(props: {
 
   return (
     <ChatUi
-      chatId={chat.id.toString()}
+      chat={chat}
       model={model}
       character={character}
       initialMessages={initialMessages}
