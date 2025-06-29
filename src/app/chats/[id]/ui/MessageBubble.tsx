@@ -23,13 +23,13 @@ export const MessageBubble: FC<MessageBubbleProps> = ({
     >
       <div
         className={clsx(
-          "text-shadow text-muted-foreground absolute -top-5 text-xs",
+          "text-shadow absolute -top-5 text-xs",
           authorType === "ai" ? "left-0" : "right-0",
         )}
       >
         {author}
       </div>
-      <div className="prose prose-sm">{text}</div>
+      <div className="prose prose-sm dark:prose-invert">{text}</div>
     </div>
   );
 };
