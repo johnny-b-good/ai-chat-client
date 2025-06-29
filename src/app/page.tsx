@@ -20,14 +20,14 @@ export default async function HomePage() {
       <Body className="flex flex-col gap-4">
         <Link
           href="/chats"
-          className="flex items-center gap-4 rounded bg-white p-4 text-xl shadow"
+          className="bg-card flex items-center gap-4 rounded p-4 text-xl shadow"
         >
           <MessageCircleIcon className="text-primary size-6" />
           Chats
         </Link>
         <Link
           href="/characters"
-          className="flex items-center gap-4 rounded bg-white p-4 text-xl shadow"
+          className="bg-card flex items-center gap-4 rounded p-4 text-xl shadow"
         >
           <CircleUserRoundIcon className="text-primary size-6" />
           Characters

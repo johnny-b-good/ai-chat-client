@@ -18,18 +18,18 @@ export const MessageBubble: FC<MessageBubbleProps> = ({
     <div
       className={clsx(
         "relative mt-5 max-w-11/12 rounded-sm px-4 py-3 text-sm shadow",
-        authorType === "ai" ? "self-start bg-slate-50" : "self-end bg-blue-50",
+        authorType === "ai" ? "bg-card self-start" : "bg-accent self-end",
       )}
     >
       <div
         className={clsx(
-          "text-shadow absolute -top-5 text-xs text-slate-600",
+          "text-shadow text-muted-foreground absolute -top-5 text-xs",
           authorType === "ai" ? "left-0" : "right-0",
         )}
       >
         {author}
       </div>
-      <div className="prose prose-slate prose-sm">{text}</div>
+      <div className="prose prose-sm">{text}</div>
     </div>
   );
 };

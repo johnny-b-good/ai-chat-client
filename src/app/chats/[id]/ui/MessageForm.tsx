@@ -22,7 +22,7 @@ export const MessageForm: FC<MessageFormProps> = ({
     <form className="relative p-4" onSubmit={onSubmit}>
       <Textarea
         placeholder="Message"
-        className="bg-white pr-12"
+        className="pr-12"
         value={value}
         onChange={onChange}
       />

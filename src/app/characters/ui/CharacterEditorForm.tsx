@@ -40,7 +40,7 @@ export const CharacterEditorForm: FC<CharacterEditorFormProps> = ({
   return (
     <Form
       action={formAction}
-      className="flex flex-col gap-4 rounded bg-white px-4 py-4 shadow"
+      className="bg-card flex flex-col gap-4 rounded px-4 py-4 shadow"
     >
       {state.message && (
         <Alert variant="destructive">
