@@ -24,7 +24,7 @@ export default async function CharacterEditPage(props: {
   return (
     <PageWithHeader>
       <Header left={<BackButton href="/characters" />}>
-        Edit {character.name}
+        Edit character {character.name}
       </Header>
       <Body>
         <CharacterEditorForm

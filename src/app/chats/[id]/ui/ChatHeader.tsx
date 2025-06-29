@@ -39,13 +39,13 @@ export const ChatHeader: FC<ChatHeaderProps> = ({
         />
       }
     >
-      <div className="grid w-full grid-cols-[min-content_1fr] items-center gap-4">
+      <div className="grid grid-cols-[min-content_1fr] items-center gap-4">
         <CharacterAvatar character={character} />
 
         <div className="flex min-w-0 flex-col justify-center text-sm">
           {character ? (
             <div>
-              <span className="text-base font-semibold">{character.name}</span>
+              <span className="text-base">{character.name}</span>
               <span className="text-slate-500"> by {model.name}</span>
             </div>
           ) : (
@@ -53,7 +53,7 @@ export const ChatHeader: FC<ChatHeaderProps> = ({
               <span>{model.name}</span>
             </div>
           )}
-          <ChatTitleWithSummary chat={chat} editable />
+          <ChatTitleWithSummary chat={chat} />
         </div>
       </div>
     </Header>
