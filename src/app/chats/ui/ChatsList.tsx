@@ -9,6 +9,7 @@ import { Character, Chat, Model } from "@/generated/prisma";
 import { List, CharacterAvatar, DeletionDialog } from "@/app/ui";
 
 import { deleteChat } from "../lib/actions";
+import { ChatTitleWithSummary } from "./ChatTitleWithSummary";
 
 dayjs.extend(relativeTime);
 
@@ -26,7 +27,7 @@ export const ChatsList: FC<ChatsListProps> = ({ chats }) => {
       <List
         items={chats.map((chat) => ({
           id: chat.id,
-          name: chat.name,
+          name: <ChatTitleWithSummary chat={chat} />,
           url: `/chats/${chat.id}`,
           description: (
             <div className="flex gap-2">

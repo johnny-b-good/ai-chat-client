@@ -4,6 +4,8 @@ import { PenIcon } from "lucide-react";
 import { Header, BackButton, CharacterAvatar, MenuButton } from "@/app/ui";
 import { type Character, type Model, type Chat } from "@/generated/prisma";
 
+import { ChatTitleWithSummary } from "../../ui";
+
 export type ChatHeaderProps = {
   chat: Chat;
   model: Model;
@@ -28,7 +30,7 @@ export const ChatHeader: FC<ChatHeaderProps> = ({
               id: "summarize",
               label: (
                 <span className="inline-flex items-center gap-2">
-                  <PenIcon className="size-4" /> Chat name and summary
+                  <PenIcon className="size-4" /> Edit chat name and summary
                 </span>
               ),
               callback: onSummarizeMenuClick,
@@ -43,7 +45,7 @@ export const ChatHeader: FC<ChatHeaderProps> = ({
         <div className="flex min-w-0 flex-col justify-center text-sm">
           {character ? (
             <div>
-              <span>{character.name}</span>
+              <span className="text-base font-semibold">{character.name}</span>
               <span className="text-slate-500"> by {model.name}</span>
             </div>
           ) : (
@@ -51,9 +53,7 @@ export const ChatHeader: FC<ChatHeaderProps> = ({
               <span>{model.name}</span>
             </div>
           )}
-          <div className="truncate" title={chat.name}>
-            {chat.name}
-          </div>
+          <ChatTitleWithSummary chat={chat} editable />
         </div>
       </div>
     </Header>
