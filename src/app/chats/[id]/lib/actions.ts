@@ -95,7 +95,7 @@ export const updateChat = async (id: number, formData: FormData) => {
 
   if (!validatedFields.success) {
     return {
-      status: "failure",
+      status: "error",
       errors: validatedFields.error.flatten().fieldErrors,
       message: "Form validation error",
     } as ChatEditorFormState;
@@ -113,7 +113,7 @@ export const updateChat = async (id: number, formData: FormData) => {
     });
   } catch {
     return {
-      status: "failure",
+      status: "error",
       message: "Chat update error",
     } as ChatEditorFormState;
   }

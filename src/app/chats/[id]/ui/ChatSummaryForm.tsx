@@ -58,11 +58,12 @@ export const ChatSummaryForm: FC<ChatSummaryFormProps> = ({
     if (formRef.current) {
       const formData = new FormData(formRef.current);
       startUpdatingChat(async () => {
-        try {
-          await updateChat(chat.id, formData);
+        // TODO: Show field errors in the form
+        const errors = await updateChat(chat.id, formData);
+        if (!errors) {
           onOpenChange(false);
           toast.info("The chat summary is successfully updated");
-        } catch {
+        } else {
           toast.error("Failed to update chat summary");
         }
       });
@@ -113,9 +114,6 @@ export const ChatSummaryForm: FC<ChatSummaryFormProps> = ({
                   setName(ev.target.value);
                 }}
               />
-              {/* {chatUpdateState?.errors?.name && (
-                <p className="text-red-500">{chatUpdateState.errors.name}</p>
-              )} */}
             </div>
 
             <div className="grid gap-2">
