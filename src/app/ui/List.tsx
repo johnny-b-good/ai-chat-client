@@ -1,7 +1,9 @@
 import { type FC, type ReactNode } from "react";
 import Link from "next/link";
+import { Loader2Icon } from "lucide-react";
 
 import { ScrollArea } from "@/components/ui";
+import { cn } from "@/lib/utils";
 
 import { MenuButton, type MenuButtonProps } from "./MenuButton";
 
@@ -16,11 +18,16 @@ export type ListItem = {
 export type ListProps = {
   items: ListItem[];
   itemActions?: MenuButtonProps<number>["actions"];
+  isLoading?: boolean;
 };
 
-export const List: FC<ListProps> = ({ items, itemActions }) => {
+export const List: FC<ListProps> = ({
+  items,
+  itemActions,
+  isLoading = false,
+}) => {
   return (
-    <ScrollArea className="max-h-full min-h-0 w-full rounded bg-white shadow">
+    <ScrollArea className="relative max-h-full min-h-0 w-full rounded bg-white shadow">
       <div className="grid">
         {items.map((item) => {
           return (
@@ -34,7 +41,7 @@ export const List: FC<ListProps> = ({ items, itemActions }) => {
               >
                 <div className="self-center">{item.icon}</div>
                 <div className="grid grid-rows-[min-content_min-content]">
-                  <div>{item.name}</div>
+                  {item.name}
                   <div className="text-xs text-slate-500">
                     {item.description}
                   </div>
@@ -49,6 +56,15 @@ export const List: FC<ListProps> = ({ items, itemActions }) => {
             </div>
           );
         })}
+      </div>
+
+      <div
+        className={cn(
+          "invisible absolute inset-0 flex items-center justify-center gap-4 rounded bg-white/50 text-2xl text-slate-700 opacity-0 backdrop-blur-[2px] transition-opacity",
+          isLoading && "visible opacity-100",
+        )}
+      >
+        <Loader2Icon className="size-8 animate-spin" /> Loading
       </div>
     </ScrollArea>
   );

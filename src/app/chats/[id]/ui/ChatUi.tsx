@@ -1,12 +1,12 @@
 "use client";
 
-import { type FC, useRef, useEffect } from "react";
+import { type FC, useRef, useEffect, useState } from "react";
 import { useChat } from "@ai-sdk/react";
 import type { UIMessage } from "ai";
 import Markdown from "react-markdown";
 import Image from "next/image";
 
-import { type Character, type Model } from "@/generated/prisma";
+import { type Character, type Model, type Chat } from "@/generated/prisma";
 
 import {
   MessageList,
@@ -15,26 +15,29 @@ import {
   ChatLayout,
   EmptyMessageList,
   ChatHeader,
+  ChatSummaryForm,
 } from ".";
 
 export type ChatUiProps = {
-  chatId: string;
+  chat: Chat;
   model: Model;
   character: Character | null;
   initialMessages: UIMessage[];
 };
 
 export const ChatUi: FC<ChatUiProps> = ({
-  chatId,
+  chat,
   model,
   character,
   initialMessages,
 }) => {
+  const [isSummaryFormOpen, setIsSummaryFormOpen] = useState<boolean>(false);
+
   const { input, handleInputChange, handleSubmit, messages } = useChat({
-    id: chatId,
+    id: chat.id.toString(),
     initialMessages,
     experimental_prepareRequestBody: (body) => ({
-      id: chatId,
+      id: chat.id.toString(),
       message: body.messages.at(-1),
     }),
   });
@@ -51,7 +54,16 @@ export const ChatUi: FC<ChatUiProps> = ({
 
   return (
     <ChatLayout
-      header={<ChatHeader model={model} character={character} />}
+      header={
+        <ChatHeader
+          chat={chat}
+          model={model}
+          character={character}
+          onSummarizeMenuClick={() => {
+            setIsSummaryFormOpen(true);
+          }}
+        />
+      }
       body={
         <>
           <MessageList ref={listRef}>
@@ -95,6 +107,14 @@ export const ChatUi: FC<ChatUiProps> = ({
             value={input}
             onChange={handleInputChange}
             onSubmit={handleSubmit}
+          />
+
+          <ChatSummaryForm
+            chat={chat}
+            isOpen={isSummaryFormOpen}
+            onOpenChange={(isOpen) => {
+              setIsSummaryFormOpen(isOpen);
+            }}
           />
         </>
       }

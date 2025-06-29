@@ -36,10 +36,10 @@ export const CharactersList: FC<CharactersListProps> = ({ characters }) => {
             id: "delete",
             label: (
               <span className="inline-flex items-center gap-2">
-                <TrashIcon className="size-4 text-red-500" /> Удалить
+                <TrashIcon className="size-4 text-red-500" /> Delete
               </span>
             ),
-            callback: (id: number) => {
+            callback: (id) => {
               setCharIdForDeletion(id);
             },
           },
