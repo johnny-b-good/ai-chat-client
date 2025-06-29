@@ -32,7 +32,7 @@ export const MessageForm: FC<MessageFormProps> = ({
         size="icon"
         className="absolute top-1/2 right-4 -translate-y-1/2 transform"
       >
-        <PaperAirplaneIcon className="size-6 text-slate-500" />
+        <PaperAirplaneIcon className="text-primary size-6" />
       </Button>
     </form>
   );

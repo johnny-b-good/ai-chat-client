@@ -42,7 +42,7 @@ export const List: FC<ListProps> = ({
                 <div className="self-center">{item.icon}</div>
                 <div className="grid grid-rows-[min-content_min-content]">
                   {item.name}
-                  <div className="text-xs text-slate-500">
+                  <div className="text-muted-foreground text-xs">
                     {item.description}
                   </div>
                 </div>

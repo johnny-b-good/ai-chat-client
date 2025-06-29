@@ -17,7 +17,7 @@ export default async function CharacterListPage() {
         right={
           <Button variant="ghost" asChild>
             <Link href="/characters/create">
-              <Plus className="size-6 text-slate-500" /> Create
+              <Plus className="text-primary size-6" /> Create
             </Link>
           </Button>
         }

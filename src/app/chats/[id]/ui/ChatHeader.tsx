@@ -46,7 +46,7 @@ export const ChatHeader: FC<ChatHeaderProps> = ({
           {character ? (
             <div>
               <span className="text-base">{character.name}</span>
-              <span className="text-slate-500"> by {model.name}</span>
+              <span className="text-muted-foreground"> by {model.name}</span>
             </div>
           ) : (
             <div>

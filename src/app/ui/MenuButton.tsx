@@ -26,7 +26,7 @@ export const MenuButton = <T,>({ actions, context }: MenuButtonProps<T>) => {
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <Button variant="ghost" size="icon">
-          <EllipsisIcon className="size-4 text-slate-500" />
+          <EllipsisIcon className="text-primary size-4" />
         </Button>
       </DropdownMenuTrigger>
 

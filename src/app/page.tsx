@@ -10,7 +10,7 @@ export default async function HomePage() {
       <Header
         left={
           <Button variant="ghost" size="icon">
-            <BotIcon className="size-6 text-slate-500" />
+            <BotIcon className="text-primary size-6" />
           </Button>
         }
       >
@@ -22,14 +22,14 @@ export default async function HomePage() {
           href="/chats"
           className="flex items-center gap-4 rounded bg-white p-4 text-xl shadow"
         >
-          <MessageCircleIcon className="size-6 text-slate-500" />
+          <MessageCircleIcon className="text-primary size-6" />
           Chats
         </Link>
         <Link
           href="/characters"
           className="flex items-center gap-4 rounded bg-white p-4 text-xl shadow"
         >
-          <CircleUserRoundIcon className="size-6 text-slate-500" />
+          <CircleUserRoundIcon className="text-primary size-6" />
           Characters
         </Link>
       </Body>
