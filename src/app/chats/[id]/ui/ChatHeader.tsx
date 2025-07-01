@@ -39,7 +39,7 @@ export const ChatHeader: FC<ChatHeaderProps> = ({
         />
       }
     >
-      <div className="grid grid-cols-[min-content_1fr] items-center gap-4">
+      <div className="grid max-w-4/5 grid-cols-[min-content_1fr] items-center gap-4">
         <CharacterAvatar character={character} />
 
         <div className="flex min-w-0 flex-col justify-center text-sm">

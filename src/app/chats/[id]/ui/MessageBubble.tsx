@@ -23,7 +23,7 @@ export const MessageBubble: FC<MessageBubbleProps> = ({
     >
       <div
         className={clsx(
-          "text-shadow absolute -top-5 text-xs",
+          "text-shadow text-muted-foreground absolute -top-5 text-xs",
           authorType === "ai" ? "left-0" : "right-0",
         )}
       >

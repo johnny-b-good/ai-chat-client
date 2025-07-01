@@ -44,8 +44,8 @@ export const ChatCreationForm: FC<ChatCreationFormProps> = ({
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button variant="ghost">
-          <Plus className="text-primary size-6" /> New chat
+        <Button variant="ghost" size="icon">
+          <Plus className="text-primary size-6" />
         </Button>
       </DialogTrigger>
 
