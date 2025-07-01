@@ -1,5 +1,6 @@
 import type { FC, ReactNode } from "react";
-import clsx from "clsx";
+
+import { cn } from "@/lib/utils";
 
 export type MessageBubbleProps = {
   text: ReactNode;
@@ -16,13 +17,13 @@ export const MessageBubble: FC<MessageBubbleProps> = ({
 }) => {
   return (
     <div
-      className={clsx(
+      className={cn(
         "relative mt-5 max-w-11/12 rounded-sm px-4 py-3 text-sm shadow",
-        authorType === "ai" ? "bg-card self-start" : "bg-accent self-end",
+        authorType === "ai" ? "bg-card self-start" : "bg-primary-card self-end",
       )}
     >
       <div
-        className={clsx(
+        className={cn(
           "text-shadow text-muted-foreground absolute -top-5 text-xs",
           authorType === "ai" ? "left-0" : "right-0",
         )}

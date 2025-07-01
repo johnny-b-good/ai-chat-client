@@ -19,7 +19,7 @@ export const MessageForm: FC<MessageFormProps> = ({
   onSubmit,
 }) => {
   return (
-    <form className="relative p-4" onSubmit={onSubmit}>
+    <form className="bg-card relative rounded-md" onSubmit={onSubmit}>
       <Textarea
         placeholder="Message"
         className="pr-12"

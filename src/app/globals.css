@@ -97,6 +97,10 @@
   --color-sidebar-border: var(--sidebar-border);
 
   --color-sidebar-ring: var(--sidebar-ring);
+
+  /* Custom variables */
+  --color-page: var(--page);
+  --color-primary-card: var(--primary-card);
 }
 
 :root {
@@ -161,9 +165,13 @@
 
   --sidebar-accent-foreground: oklch(0.21 0.006 285.885);
 
-  --sidebar-border: oklch(0.92 0.004 286.32);
+  --sidebar-border: oklch(0.95 0.004 286.32);
 
   --sidebar-ring: oklch(0.623 0.214 259.815);
+
+  /* Custom variables */
+  --page: oklch(0.98 0.001 286.375);
+  --primary-card: oklch(90% 0.07 258);
 }
 
 .dark {
@@ -228,6 +236,10 @@
   --sidebar-border: oklch(1 0 0 / 10%);
 
   --sidebar-ring: oklch(0.488 0.243 264.376);
+
+  /* Custom variables */
+  --page: oklch(0.141 0.005 285.823);
+  --primary-card: oklch(0.546 0.245 262.881);
 }
 
 @layer base {
