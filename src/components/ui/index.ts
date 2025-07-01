@@ -14,3 +14,4 @@ export * from "./sonner";
 export * from "./tooltip";
 export * from "./popover";
 export * from "./hover-card";
+export * from "./card";
