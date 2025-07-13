@@ -66,42 +66,46 @@ export const ChatUi: FC<ChatUiProps> = ({
       }
       body={
         <>
-          <MessageList ref={listRef}>
-            {messages.map((message) => {
-              return (
-                <MessageBubble
-                  key={message.id}
-                  author={message.role === "assistant" ? aiDisplayName : "You"}
-                  authorType={message.role === "assistant" ? "ai" : "user"}
-                  createdAt={message.createdAt}
-                  text={message.parts.map((part, i) => {
-                    switch (part.type) {
-                      case "text":
-                        return <Markdown key={i}>{part.text}</Markdown>;
-                      case "source":
-                        return <div key={i}>{part.source.url}</div>;
-                      case "reasoning":
-                        return <div key={i}>{part.reasoning}</div>;
-                      case "tool-invocation":
-                        return (
-                          <div key={i}>{part.toolInvocation.toolName}</div>
-                        );
-                      case "file":
-                        return (
-                          <Image
-                            key={i}
-                            src={`data:${part.mimeType};base64,${part.data}`}
-                            alt=""
-                          />
-                        );
+          {messages.length === 0 ? (
+            <EmptyMessageList />
+          ) : (
+            <MessageList ref={listRef}>
+              {messages.map((message) => {
+                return (
+                  <MessageBubble
+                    key={message.id}
+                    author={
+                      message.role === "assistant" ? aiDisplayName : "You"
                     }
-                  })}
-                />
-              );
-            })}
-
-            {messages.length === 0 && <EmptyMessageList />}
-          </MessageList>
+                    authorType={message.role === "assistant" ? "ai" : "user"}
+                    createdAt={message.createdAt}
+                    text={message.parts.map((part, i) => {
+                      switch (part.type) {
+                        case "text":
+                          return <Markdown key={i}>{part.text}</Markdown>;
+                        case "source":
+                          return <div key={i}>{part.source.url}</div>;
+                        case "reasoning":
+                          return <div key={i}>{part.reasoning}</div>;
+                        case "tool-invocation":
+                          return (
+                            <div key={i}>{part.toolInvocation.toolName}</div>
+                          );
+                        case "file":
+                          return (
+                            <Image
+                              key={i}
+                              src={`data:${part.mimeType};base64,${part.data}`}
+                              alt=""
+                            />
+                          );
+                      }
+                    })}
+                  />
+                );
+              })}
+            </MessageList>
+          )}
 
           <MessageForm
             value={input}
