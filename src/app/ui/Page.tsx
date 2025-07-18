@@ -4,9 +4,9 @@ export type PageWithHeaderProps = {
   children: ReactNode;
 };
 
-export const PageWithHeader: FC<PageWithHeaderProps> = ({ children }) => {
+export const Page: FC<PageWithHeaderProps> = ({ children }) => {
   return (
-    <div className="grid h-dvh grid-cols-1 grid-rows-[min-content_1fr]">
+    <div className="grid h-dvh grid-cols-1 grid-rows-[min-content_1fr_min-content]">
       {children}
     </div>
   );

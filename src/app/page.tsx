@@ -1,4 +1,4 @@
-import { PageWithHeader, Body, Header } from "@/app/ui";
+import { Page, Body, Header } from "@/app/ui";
 import Link from "next/link";
 import { MessageCircleIcon, CircleUserRoundIcon, BotIcon } from "lucide-react";
 
@@ -6,7 +6,7 @@ import { Button } from "@/components/ui";
 
 export default async function HomePage() {
   return (
-    <PageWithHeader>
+    <Page>
       <Header
         left={
           <Button variant="ghost" size="icon">
@@ -33,6 +33,6 @@ export default async function HomePage() {
           Characters
         </Link>
       </Body>
-    </PageWithHeader>
+    </Page>
   );
 }

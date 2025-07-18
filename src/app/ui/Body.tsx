@@ -1,15 +1,20 @@
-import { type FC, type ReactNode } from "react";
-import clsx from "clsx";
+import { type FC, type ReactNode, type Ref } from "react";
+
+import { cn } from "@/lib/utils";
 
 export type BodyProps = {
   children: ReactNode;
   className?: string;
+  ref?: Ref<HTMLDivElement>;
 };
 
-export const Body: FC<BodyProps> = ({ children, className }) => {
+export const Body: FC<BodyProps> = ({ children, className, ref }) => {
   return (
-    <div className={clsx("mx-auto min-h-0 w-full p-4 sm:w-150", className)}>
-      {children}
+    <div
+      className={cn("h-full min-h-0 w-full overflow-y-auto", className)}
+      ref={ref}
+    >
+      <div className="mx-auto w-full p-4 sm:w-150">{children}</div>
     </div>
   );
 };

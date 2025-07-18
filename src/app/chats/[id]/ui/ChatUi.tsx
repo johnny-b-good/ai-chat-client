@@ -7,12 +7,12 @@ import Markdown from "react-markdown";
 import Image from "next/image";
 
 import { type Character, type Model, type Chat } from "@/generated/prisma";
+import { Page, Body, Footer } from "@/app/ui";
 
 import {
   MessageList,
   MessageBubble,
   MessageForm,
-  ChatLayout,
   EmptyMessageList,
   ChatHeader,
   ChatSummaryForm,
@@ -53,75 +53,72 @@ export const ChatUi: FC<ChatUiProps> = ({
   const aiDisplayName = character?.name ?? model.name;
 
   return (
-    <ChatLayout
-      header={
-        <ChatHeader
-          chat={chat}
-          model={model}
-          character={character}
-          onSummarizeMenuClick={() => {
-            setIsSummaryFormOpen(true);
-          }}
-        />
-      }
-      body={
-        <>
-          {messages.length === 0 ? (
-            <EmptyMessageList />
-          ) : (
-            <MessageList ref={listRef}>
-              {messages.map((message) => {
-                return (
-                  <MessageBubble
-                    key={message.id}
-                    author={
-                      message.role === "assistant" ? aiDisplayName : "You"
+    <Page>
+      <ChatHeader
+        chat={chat}
+        model={model}
+        character={character}
+        onSummarizeMenuClick={() => {
+          setIsSummaryFormOpen(true);
+        }}
+      />
+
+      {messages.length === 0 ? (
+        <EmptyMessageList />
+      ) : (
+        <Body ref={listRef}>
+          <MessageList>
+            {messages.map((message) => {
+              return (
+                <MessageBubble
+                  key={message.id}
+                  author={message.role === "assistant" ? aiDisplayName : "You"}
+                  authorType={message.role === "assistant" ? "ai" : "user"}
+                  createdAt={message.createdAt}
+                  text={message.parts.map((part, i) => {
+                    switch (part.type) {
+                      case "text":
+                        return <Markdown key={i}>{part.text}</Markdown>;
+                      case "source":
+                        return <div key={i}>{part.source.url}</div>;
+                      case "reasoning":
+                        return <div key={i}>{part.reasoning}</div>;
+                      case "tool-invocation":
+                        return (
+                          <div key={i}>{part.toolInvocation.toolName}</div>
+                        );
+                      case "file":
+                        return (
+                          <Image
+                            key={i}
+                            src={`data:${part.mimeType};base64,${part.data}`}
+                            alt=""
+                          />
+                        );
                     }
-                    authorType={message.role === "assistant" ? "ai" : "user"}
-                    createdAt={message.createdAt}
-                    text={message.parts.map((part, i) => {
-                      switch (part.type) {
-                        case "text":
-                          return <Markdown key={i}>{part.text}</Markdown>;
-                        case "source":
-                          return <div key={i}>{part.source.url}</div>;
-                        case "reasoning":
-                          return <div key={i}>{part.reasoning}</div>;
-                        case "tool-invocation":
-                          return (
-                            <div key={i}>{part.toolInvocation.toolName}</div>
-                          );
-                        case "file":
-                          return (
-                            <Image
-                              key={i}
-                              src={`data:${part.mimeType};base64,${part.data}`}
-                              alt=""
-                            />
-                          );
-                      }
-                    })}
-                  />
-                );
-              })}
-            </MessageList>
-          )}
+                  })}
+                />
+              );
+            })}
+          </MessageList>
+        </Body>
+      )}
 
-          <MessageForm
-            value={input}
-            onChange={handleInputChange}
-            onSubmit={handleSubmit}
-          />
+      <Footer className="px-4 pb-4">
+        <MessageForm
+          value={input}
+          onChange={handleInputChange}
+          onSubmit={handleSubmit}
+        />
+      </Footer>
 
-          <ChatSummaryForm
-            chat={chat}
-            isOpen={isSummaryFormOpen}
-            onOpenChange={(isOpen) => {
-              setIsSummaryFormOpen(isOpen);
-            }}
-          />
-        </>
-      }
-    />
+      <ChatSummaryForm
+        chat={chat}
+        isOpen={isSummaryFormOpen}
+        onOpenChange={(isOpen) => {
+          setIsSummaryFormOpen(isOpen);
+        }}
+      />
+    </Page>
   );
 };
