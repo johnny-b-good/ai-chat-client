@@ -25,7 +25,6 @@ export const MessageForm: FC<MessageFormProps> = ({
         className="pr-12"
         value={value}
         onChange={onChange}
-        autoFocus
       />
 
       <Button
