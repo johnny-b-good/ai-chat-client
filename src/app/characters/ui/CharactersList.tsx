@@ -28,7 +28,9 @@ export const CharactersList: FC<CharactersListProps> = ({ characters }) => {
           id: character.id,
           name: character.name,
           url: `/characters/${character.id}/edit`,
-          description: <div>{dayjs(character.updatedAt).fromNow()}</div>,
+          description: (
+            <div>Updated {dayjs(character.updatedAt).fromNow()}</div>
+          ),
           icon: <CharacterAvatar character={character} />,
         }))}
         itemActions={[

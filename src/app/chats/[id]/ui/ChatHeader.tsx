@@ -44,13 +44,17 @@ export const ChatHeader: FC<ChatHeaderProps> = ({
 
         <div className="flex min-w-0 flex-col justify-center text-sm">
           {character ? (
-            <div>
-              <span className="text-base">{character.name}</span>
-              <span className="text-muted-foreground"> by {model.name}</span>
+            <div className="flex items-baseline gap-2">
+              <div className="text-base whitespace-nowrap">
+                {character.name}
+              </div>
+              <div className="text-muted-foreground flex-auto truncate">
+                by {model.name}
+              </div>
             </div>
           ) : (
             <div>
-              <span>{model.name}</span>
+              <div>{model.name}</div>
             </div>
           )}
           <ChatTitleWithSummary chat={chat} />

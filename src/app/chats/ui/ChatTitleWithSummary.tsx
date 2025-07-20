@@ -15,7 +15,7 @@ export const ChatTitleWithSummary: FC<ChatTitleWithSummaryProps> = ({
   return (
     <HoverCard>
       <HoverCardTrigger className="max-w-full truncate" asChild>
-        <span>{chat.name}</span>
+        <div>{chat.name}</div>
       </HoverCardTrigger>
 
       <HoverCardContent className="w-96" side="bottom" align="start">

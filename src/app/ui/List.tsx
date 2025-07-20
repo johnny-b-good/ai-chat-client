@@ -32,7 +32,7 @@ export const List: FC<ListProps> = ({ items, itemActions }) => {
               <div className="self-center">{item.icon}</div>
               <div className="grid grid-rows-[min-content_min-content]">
                 {item.name}
-                <div className="text-muted-foreground text-xs">
+                <div className="text-muted-foreground truncate text-xs">
                   {item.description}
                 </div>
               </div>

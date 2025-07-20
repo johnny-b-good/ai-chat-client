@@ -30,14 +30,12 @@ export const ChatsList: FC<ChatsListProps> = ({ chats }) => {
           name: <ChatTitleWithSummary chat={chat} />,
           url: `/chats/${chat.id}`,
           description: (
-            <div className="flex gap-2">
-              {chat.character && (
-                <>
-                  <div>{chat.character?.name ?? "none"}</div> |
-                </>
-              )}
-              <div>{chat.model.name}</div> |
-              <div>{dayjs(chat.updatedAt).fromNow()}</div>
+            <div className="flex flex-col">
+              <span className="truncate">
+                {chat.character && <>{chat.character?.name} by </>}
+                {chat.model.name}
+              </span>
+              <span>Updated {dayjs(chat.updatedAt).fromNow()}</span>
             </div>
           ),
           icon: <CharacterAvatar character={chat.character} />,
