@@ -19,10 +19,10 @@ export const MessageForm: FC<MessageFormProps> = ({
   onSubmit,
 }) => {
   return (
-    <form className="relative p-4" onSubmit={onSubmit}>
+    <form className="bg-card relative rounded-md" onSubmit={onSubmit}>
       <Textarea
         placeholder="Message"
-        className="bg-white pr-12"
+        className="pr-12"
         value={value}
         onChange={onChange}
       />
@@ -32,7 +32,7 @@ export const MessageForm: FC<MessageFormProps> = ({
         size="icon"
         className="absolute top-1/2 right-4 -translate-y-1/2 transform"
       >
-        <PaperAirplaneIcon className="size-6 text-slate-500" />
+        <PaperAirplaneIcon className="text-primary size-6" />
       </Button>
     </form>
   );

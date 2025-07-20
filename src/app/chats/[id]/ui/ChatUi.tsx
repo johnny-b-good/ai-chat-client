@@ -7,12 +7,12 @@ import Markdown from "react-markdown";
 import Image from "next/image";
 
 import { type Character, type Model, type Chat } from "@/generated/prisma";
+import { Page, Body, Footer } from "@/app/ui";
 
 import {
   MessageList,
   MessageBubble,
   MessageForm,
-  ChatLayout,
   EmptyMessageList,
   ChatHeader,
   ChatSummaryForm,
@@ -53,20 +53,21 @@ export const ChatUi: FC<ChatUiProps> = ({
   const aiDisplayName = character?.name ?? model.name;
 
   return (
-    <ChatLayout
-      header={
-        <ChatHeader
-          chat={chat}
-          model={model}
-          character={character}
-          onSummarizeMenuClick={() => {
-            setIsSummaryFormOpen(true);
-          }}
-        />
-      }
-      body={
-        <>
-          <MessageList ref={listRef}>
+    <Page>
+      <ChatHeader
+        chat={chat}
+        model={model}
+        character={character}
+        onSummarizeMenuClick={() => {
+          setIsSummaryFormOpen(true);
+        }}
+      />
+
+      {messages.length === 0 ? (
+        <EmptyMessageList />
+      ) : (
+        <Body ref={listRef}>
+          <MessageList>
             {messages.map((message) => {
               return (
                 <MessageBubble
@@ -99,25 +100,25 @@ export const ChatUi: FC<ChatUiProps> = ({
                 />
               );
             })}
-
-            {messages.length === 0 && <EmptyMessageList />}
           </MessageList>
+        </Body>
+      )}
 
-          <MessageForm
-            value={input}
-            onChange={handleInputChange}
-            onSubmit={handleSubmit}
-          />
+      <Footer className="px-4 pb-4">
+        <MessageForm
+          value={input}
+          onChange={handleInputChange}
+          onSubmit={handleSubmit}
+        />
+      </Footer>
 
-          <ChatSummaryForm
-            chat={chat}
-            isOpen={isSummaryFormOpen}
-            onOpenChange={(isOpen) => {
-              setIsSummaryFormOpen(isOpen);
-            }}
-          />
-        </>
-      }
-    />
+      <ChatSummaryForm
+        chat={chat}
+        isOpen={isSummaryFormOpen}
+        onOpenChange={(isOpen) => {
+          setIsSummaryFormOpen(isOpen);
+        }}
+      />
+    </Page>
   );
 };

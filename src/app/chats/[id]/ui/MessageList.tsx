@@ -1,16 +1,11 @@
-import type { FC, ReactNode, Ref } from "react";
-
-import { ScrollArea } from "@/components/ui";
+import type { FC, ReactNode } from "react";
 
 export type MessageListProps = {
   children: ReactNode;
-  ref: Ref<HTMLDivElement>;
 };
 
-export const MessageList: FC<MessageListProps> = ({ children, ref }) => {
+export const MessageList: FC<MessageListProps> = ({ children }) => {
   return (
-    <ScrollArea className="h-full min-h-0 w-full" ref={ref}>
-      <div className="flex flex-col items-start gap-4 p-4">{children}</div>
-    </ScrollArea>
+    <div className="relative flex flex-col items-start gap-4">{children}</div>
   );
 };

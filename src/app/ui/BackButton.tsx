@@ -12,7 +12,7 @@ export const BackButton: FC<BackButtonProps> = ({ href }) => {
   return (
     <Button variant="ghost" size="icon" asChild>
       <Link href={href}>
-        <ChevronLeft className="size-6 text-slate-500" />
+        <ChevronLeft className="text-primary size-6" />
       </Link>
     </Button>
   );

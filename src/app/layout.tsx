@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import "./globals.css";
 
 import { Toaster } from "@/components/ui";
+import { ThemeProvider } from "@/components/theme-provider";
 
 export const metadata: Metadata = {
   title: "Ollama client",
@@ -19,9 +20,20 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className="bg-slate-100 text-slate-900 antialiased">
-      <body className="bg-slate-200">
-        {children}
+    <html
+      lang="en"
+      className="bg-page text-foreground antialiased"
+      suppressHydrationWarning
+    >
+      <body className="bg-page">
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="system"
+          enableSystem
+          disableTransitionOnChange
+        >
+          {children}
+        </ThemeProvider>
         <Toaster />
       </body>
     </html>

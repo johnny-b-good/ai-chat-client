@@ -1,38 +1,30 @@
-import { PageWithHeader, Body, Header } from "@/app/ui";
+import { Page, Body, Header } from "@/app/ui";
 import Link from "next/link";
-import { MessageCircleIcon, CircleUserRoundIcon, BotIcon } from "lucide-react";
-
-import { Button } from "@/components/ui";
+import { MessageCircleIcon, CircleUserRoundIcon } from "lucide-react";
 
 export default async function HomePage() {
   return (
-    <PageWithHeader>
-      <Header
-        left={
-          <Button variant="ghost" size="icon">
-            <BotIcon className="size-6 text-slate-500" />
-          </Button>
-        }
-      >
-        Ollama Client
-      </Header>
+    <Page>
+      <Header>Ollama Client</Header>
 
-      <Body className="flex flex-col gap-4">
-        <Link
-          href="/chats"
-          className="flex items-center gap-4 rounded bg-white p-4 text-xl shadow"
-        >
-          <MessageCircleIcon className="size-6 text-slate-500" />
-          Chats
-        </Link>
-        <Link
-          href="/characters"
-          className="flex items-center gap-4 rounded bg-white p-4 text-xl shadow"
-        >
-          <CircleUserRoundIcon className="size-6 text-slate-500" />
-          Characters
-        </Link>
+      <Body>
+        <div className="flex flex-col gap-4">
+          <Link
+            href="/chats"
+            className="bg-card flex items-center gap-4 rounded p-4 text-xl shadow"
+          >
+            <MessageCircleIcon className="text-primary size-6" />
+            Chats
+          </Link>
+          <Link
+            href="/characters"
+            className="bg-card flex items-center gap-4 rounded p-4 text-xl shadow"
+          >
+            <CircleUserRoundIcon className="text-primary size-6" />
+            Characters
+          </Link>
+        </div>
       </Body>
-    </PageWithHeader>
+    </Page>
   );
 }
