@@ -3,7 +3,6 @@
 import { type FC, useRef, useEffect, useState } from "react";
 import { useChat } from "@ai-sdk/react";
 import type { UIMessage } from "ai";
-import Markdown from "react-markdown";
 import Image from "next/image";
 
 import { type Character, type Model, type Chat } from "@/generated/prisma";
@@ -16,6 +15,7 @@ import {
   EmptyMessageList,
   ChatHeader,
   ChatSummaryForm,
+  MarkdownRender,
 } from ".";
 
 export type ChatUiProps = {
@@ -75,10 +75,11 @@ export const ChatUi: FC<ChatUiProps> = ({
                   author={message.role === "assistant" ? aiDisplayName : "You"}
                   authorType={message.role === "assistant" ? "ai" : "user"}
                   createdAt={message.createdAt}
-                  text={message.parts.map((part, i) => {
+                >
+                  {message.parts.map((part, i) => {
                     switch (part.type) {
                       case "text":
-                        return <Markdown key={i}>{part.text}</Markdown>;
+                        return <MarkdownRender key={i} content={part.text} />;
                       case "source":
                         return <div key={i}>{part.source.url}</div>;
                       case "reasoning":
@@ -97,7 +98,7 @@ export const ChatUi: FC<ChatUiProps> = ({
                         );
                     }
                   })}
-                />
+                </MessageBubble>
               );
             })}
           </MessageList>

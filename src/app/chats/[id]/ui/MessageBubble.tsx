@@ -3,14 +3,14 @@ import type { FC, ReactNode } from "react";
 import { cn } from "@/lib/utils";
 
 export type MessageBubbleProps = {
-  text: ReactNode;
+  children: ReactNode;
   createdAt?: Date;
   author: string;
   authorType: "user" | "ai";
 };
 
 export const MessageBubble: FC<MessageBubbleProps> = ({
-  text,
+  children,
   author,
   // createdAt,
   authorType,
@@ -30,7 +30,7 @@ export const MessageBubble: FC<MessageBubbleProps> = ({
       >
         {author}
       </div>
-      <div className="prose prose-sm dark:prose-invert">{text}</div>
+      <div className="prose prose-sm dark:prose-invert">{children}</div>
     </div>
   );
 };
