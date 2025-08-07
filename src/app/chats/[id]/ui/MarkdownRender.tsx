@@ -2,7 +2,8 @@
 
 import { type FC, useState } from "react";
 import { Loader2Icon, ChevronDownIcon } from "lucide-react";
-import Markdown from "react-markdown";
+import Markdown, { Options as MarkdownProps } from "react-markdown";
+import remarkGfm from "remark-gfm";
 
 import { cn } from "@/lib/utils";
 
@@ -12,6 +13,9 @@ export type MarkdownRenderProps = {
 
 const THOUGHTS_START_TOKEN = "<think>";
 const THOUGHTS_END_TOKEN = "</think>";
+const COMMON_MD_PROPS: MarkdownProps = {
+  remarkPlugins: [remarkGfm],
+};
 
 export const MarkdownRender: FC<MarkdownRenderProps> = ({ content }) => {
   const [showThoughts, setShowThoughts] = useState<boolean>(false);
@@ -52,16 +56,16 @@ export const MarkdownRender: FC<MarkdownRenderProps> = ({ content }) => {
 
           {showThoughts && (
             <div className="border-border border-l-2 pl-4">
-              <Markdown>{thoughts}</Markdown>
+              <Markdown {...COMMON_MD_PROPS}>{thoughts}</Markdown>
             </div>
           )}
         </>
       )}
 
       {startedThinking && doneThinking ? (
-        <Markdown>{reply}</Markdown>
+        <Markdown {...COMMON_MD_PROPS}>{reply}</Markdown>
       ) : startedThinking ? null : (
-        <Markdown>{content}</Markdown>
+        <Markdown {...COMMON_MD_PROPS}>{content}</Markdown>
       )}
     </>
   );
