@@ -1,12 +1,12 @@
 "use client";
 
-import { type FC, useRef, useEffect, useState } from "react";
+import { type FC, useRef, useEffect, useState, type FormEvent } from "react";
 import { useChat } from "@ai-sdk/react";
-import type { UIMessage } from "ai";
-import Image from "next/image";
+import { DefaultChatTransport } from "ai";
 
 import { type Character, type Model, type Chat } from "@/generated/prisma";
 import { Page, Body, Footer } from "@/app/ui";
+import { UIMessageWithMeta } from "../../lib/types";
 
 import {
   MessageList,
@@ -22,7 +22,7 @@ export type ChatUiProps = {
   chat: Chat;
   model: Model;
   character: Character | null;
-  initialMessages: UIMessage[];
+  initialMessages: UIMessageWithMeta[];
 };
 
 export const ChatUi: FC<ChatUiProps> = ({
@@ -33,12 +33,21 @@ export const ChatUi: FC<ChatUiProps> = ({
 }) => {
   const [isSummaryFormOpen, setIsSummaryFormOpen] = useState<boolean>(false);
 
-  const { input, handleInputChange, handleSubmit, messages } = useChat({
+  const [messageInputValue, setMessageInputValue] = useState<string>("");
+
+  const { messages, sendMessage } = useChat({
     id: chat.id.toString(),
-    initialMessages,
-    experimental_prepareRequestBody: (body) => ({
-      id: chat.id.toString(),
-      message: body.messages.at(-1),
+    messages: initialMessages,
+    transport: new DefaultChatTransport({
+      api: "/api/chat",
+      prepareSendMessagesRequest({ messages, id }) {
+        return {
+          body: {
+            message: messages[messages.length - 1],
+            id,
+          },
+        };
+      },
     }),
   });
 
@@ -51,6 +60,12 @@ export const ChatUi: FC<ChatUiProps> = ({
   }, [messages]);
 
   const aiDisplayName = character?.name ?? model.name;
+
+  const handleSubmit = (ev: FormEvent<HTMLFormElement>) => {
+    ev.preventDefault();
+    sendMessage({ text: messageInputValue });
+    setMessageInputValue("");
+  };
 
   return (
     <Page>
@@ -74,28 +89,15 @@ export const ChatUi: FC<ChatUiProps> = ({
                   key={message.id}
                   author={message.role === "assistant" ? aiDisplayName : "You"}
                   authorType={message.role === "assistant" ? "ai" : "user"}
-                  createdAt={message.createdAt}
+                  createdAt={message.metadata?.createdAt}
                 >
                   {message.parts.map((part, i) => {
                     switch (part.type) {
                       case "text":
                         return <MarkdownRender key={i} content={part.text} />;
-                      case "source":
-                        return <div key={i}>{part.source.url}</div>;
-                      case "reasoning":
-                        return <div key={i}>{part.reasoning}</div>;
-                      case "tool-invocation":
-                        return (
-                          <div key={i}>{part.toolInvocation.toolName}</div>
-                        );
-                      case "file":
-                        return (
-                          <Image
-                            key={i}
-                            src={`data:${part.mimeType};base64,${part.data}`}
-                            alt=""
-                          />
-                        );
+                      default:
+                        console.warn("Unsupported message part type", part);
+                        return null;
                     }
                   })}
                 </MessageBubble>
@@ -107,8 +109,8 @@ export const ChatUi: FC<ChatUiProps> = ({
 
       <Footer className="px-4 pb-4">
         <MessageForm
-          value={input}
-          onChange={handleInputChange}
+          value={messageInputValue}
+          setValue={setMessageInputValue}
           onSubmit={handleSubmit}
         />
       </Footer>

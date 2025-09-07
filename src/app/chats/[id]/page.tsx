@@ -1,8 +1,7 @@
-import { type UIMessage } from "ai";
-
 import { ChatUi } from "./ui";
 import prisma from "@/app/lib/prisma";
-import { messagePartsSchema } from "@/app/lib/schemas";
+import { normalizeMessages } from "../lib/utils";
+import { type UIMessageWithMeta } from "../lib/types";
 
 export default async function ChatPage(props: {
   params: Promise<{ id: string }>;
@@ -30,13 +29,8 @@ export default async function ChatPage(props: {
     },
   });
 
-  const initialMessages: UIMessage[] = messages.map((message) => ({
-    id: message.id.toString(),
-    parts: messagePartsSchema.parse(message.parts),
-    content: "",
-    createdAt: message.createdAt,
-    role: message.role,
-  }));
+  const initialMessages: Array<UIMessageWithMeta> =
+    await normalizeMessages(messages);
 
   return (
     <ChatUi

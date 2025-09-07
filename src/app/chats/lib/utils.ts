@@ -1,7 +1,8 @@
 import dayjs from "dayjs";
+import { validateUIMessages } from "ai";
 
-import { type Chat } from "@/generated/prisma";
-import { type ChatGroup } from "./types";
+import { type Chat, type Message } from "@/generated/prisma";
+import { type ChatGroup, type UIMessageWithMeta } from "./types";
 
 /**
  * Split a list of chats into separate groups by update date.
@@ -65,4 +66,36 @@ export const groupChatsByDate = <T extends Chat>(
     { chats: groups.last30, type: "last30" },
     ...monthlyGroups,
   ];
+};
+
+/**
+ * Convert DB-stored messages to UIMessage with metadata.
+ *
+ * May also add a new incoming message of unknown type.
+ * @param dbMessages
+ * @param newMessage
+ * @returns
+ */
+export const normalizeMessages = async (
+  dbMessages: Array<Message>,
+  newMessage?: unknown,
+): Promise<Array<UIMessageWithMeta>> => {
+  const allMessages: Array<unknown> = [
+    ...dbMessages.map((dbMessage) => ({
+      id: dbMessage.id.toString(),
+      role: dbMessage.role,
+      metadata: {
+        createdAt: dbMessage.createdAt,
+      },
+      parts: dbMessage.parts,
+    })),
+  ];
+
+  if (newMessage) {
+    allMessages.push(newMessage);
+  }
+
+  return await validateUIMessages({
+    messages: allMessages,
+  });
 };

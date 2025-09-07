@@ -1,3 +1,5 @@
+import { type UIMessage } from "ai";
+
 import { type Character, type Chat, type Model } from "@/generated/prisma";
 
 export type ChatWithRelated = Chat & {
@@ -11,3 +13,5 @@ export interface ChatGroup<T extends Chat = Chat> {
   year?: string;
   month?: string;
 }
+
+export type UIMessageWithMeta = UIMessage<{ createdAt: Date }>;
