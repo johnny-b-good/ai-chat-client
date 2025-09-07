@@ -1,4 +1,4 @@
-import type { ChangeEvent, FC } from "react";
+import type { FC, FormEvent } from "react";
 import { PaperAirplaneIcon } from "@heroicons/react/24/outline";
 
 import { Button, Textarea } from "@/components/ui";
@@ -7,15 +7,13 @@ export type MessageFormProps = {
   disabled?: boolean;
   isLoading?: boolean;
   value: string;
-  onChange: (
-    ev: ChangeEvent<HTMLInputElement> | ChangeEvent<HTMLTextAreaElement>,
-  ) => void;
-  onSubmit: () => void;
+  setValue: (newValue: string) => void;
+  onSubmit: (ev: FormEvent<HTMLFormElement>) => void;
 };
 
 export const MessageForm: FC<MessageFormProps> = ({
   value,
-  onChange,
+  setValue,
   onSubmit,
 }) => {
   return (
@@ -24,7 +22,9 @@ export const MessageForm: FC<MessageFormProps> = ({
         placeholder="Message"
         className="pr-12"
         value={value}
-        onChange={onChange}
+        onChange={(ev) => {
+          setValue(ev.target.value);
+        }}
       />
 
       <Button

@@ -1,13 +1,13 @@
-import { appendClientMessage, appendResponseMessages, streamText } from "ai";
-import { z } from "zod";
+import { streamText, convertToModelMessages, type UIMessage } from "ai";
+import { z } from "zod/v3";
 
 import { openai } from "@/app/lib/openai";
 import prisma from "@/app/lib/prisma";
-import { messageSchema, messagePartsSchema } from "@/app/lib/schemas";
+import { normalizeMessages } from "@/app/chats/lib/utils";
 
 export const postRequestBodySchema = z.object({
   id: z.string(),
-  message: messageSchema,
+  message: z.any(),
 });
 
 export type PostRequestBody = z.infer<typeof postRequestBodySchema>;
@@ -42,20 +42,17 @@ export async function POST(request: Request) {
       })
     : null;
 
-  const previousMessages = await prisma.message.findMany({
+  const dbMessages = await prisma.message.findMany({
     where: { chatId: chat.id },
   });
 
-  const messages = appendClientMessage({
-    messages: previousMessages.map((message) => ({
-      id: message.id.toString(),
-      parts: messagePartsSchema.parse(message.parts),
-      content: "",
-      createdAt: message.createdAt,
-      role: message.role,
-    })),
-    message,
-  });
+  let messages: Array<UIMessage>;
+  try {
+    messages = await normalizeMessages(dbMessages, message);
+  } catch (err) {
+    console.error(err);
+    return new Response("Failed to validate messages", { status: 400 });
+  }
 
   await prisma.message.create({
     data: {
@@ -66,30 +63,21 @@ export async function POST(request: Request) {
   });
 
   const result = streamText({
-    model: openai(model.name),
+    model: openai.chat(model.name),
     system: character?.systemPrompt,
-    messages,
-    onFinish: async ({ response }) => {
-      const [, assistantMessage] = appendResponseMessages({
-        messages: [message],
-        responseMessages: response.messages,
-      });
+    messages: convertToModelMessages(messages),
+  });
 
+  return result.toUIMessageStreamResponse({
+    onFinish: async ({ responseMessage }) => {
       await prisma.message.create({
         data: {
           chatId: chat.id,
           role: "assistant",
-          parts: messagePartsSchema.parse(
-            assistantMessage.parts?.filter((part) => part.type === "text") ??
-              [],
-          ),
+          parts:
+            responseMessage.parts?.filter((part) => part.type === "text") ?? [],
         },
       });
     },
-    onError: (err) => {
-      console.log(err);
-    },
   });
-
-  return result.toDataStreamResponse();
 }

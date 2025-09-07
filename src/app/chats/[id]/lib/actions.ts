@@ -1,12 +1,12 @@
 "use server";
 
 import prisma from "@/app/lib/prisma";
-import z from "zod";
+import { z } from "zod/v3";
 import { revalidatePath } from "next/cache";
 import { generateObject } from "ai";
 
 import { openai } from "@/app/lib/openai";
-import { messagePartsSchema } from "@/app/lib/schemas";
+import { normalizeMessages } from "../../lib/utils";
 
 const ChatEditorFormSchema = z.object({
   name: z.string().min(1, "Name is required").max(1000),
@@ -30,16 +30,22 @@ export const summarizeChat = async (id: number): Promise<SummaryResult> => {
     where: { id },
     include: { character: true, model: true },
   });
-  const messages = await prisma.message.findMany({ where: { chatId: id } });
+
+  const dbMessages = await prisma.message.findMany({ where: { chatId: id } });
+
+  const messages = await normalizeMessages(dbMessages);
 
   const chatLog = messages
     .map((message) => {
-      const messageText = messagePartsSchema
-        .parse(message.parts)
+      const messageText = message.parts
+        .filter((part) => part.type === "text")
         .map((part) => part.text)
         .join("\n");
 
-      if (message.role === "user" || message.role === "assistant") {
+      if (
+        messageText &&
+        (message.role === "user" || message.role === "assistant")
+      ) {
         const author =
           message.role === "user"
             ? "User"
@@ -47,7 +53,7 @@ export const summarizeChat = async (id: number): Promise<SummaryResult> => {
               ? chat.character.name
               : `Model "${chat.model.name}"`;
 
-        return `${author} said at ${message.createdAt.toISOString()}:\n${messageText}`;
+        return `${author} said at ${message.metadata?.createdAt.toISOString()}:\n${messageText}`;
       } else {
         return null;
       }
@@ -63,7 +69,7 @@ export const summarizeChat = async (id: number): Promise<SummaryResult> => {
     const {
       object: { name, summary },
     } = await generateObject({
-      model: openai(process.env.SUMMARIZE_MODEL),
+      model: openai.chat(process.env.SUMMARIZE_MODEL),
       output: "object",
       mode: "json",
       schema: z.object({
@@ -82,7 +88,8 @@ export const summarizeChat = async (id: number): Promise<SummaryResult> => {
     });
 
     return { status: "ok", name, summary };
-  } catch {
+  } catch (err) {
+    console.log(err);
     return { status: "error", message: "Chat summary generation error" };
   }
 };

@@ -42,7 +42,6 @@ enum MessageRole {
   system
   user
   assistant
-  data
 }
 
 model Character {

@@ -1,7 +1,7 @@
 "use server";
 
 import prisma from "@/app/lib/prisma";
-import z from "zod";
+import { z } from 'zod/v3';
 import ollama from "ollama";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
