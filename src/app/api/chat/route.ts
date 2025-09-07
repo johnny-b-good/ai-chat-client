@@ -1,5 +1,5 @@
 import { streamText, convertToModelMessages, type UIMessage } from "ai";
-import { z } from "zod/v3";
+import { z } from "zod";
 
 import { openai } from "@/app/lib/openai";
 import prisma from "@/app/lib/prisma";
