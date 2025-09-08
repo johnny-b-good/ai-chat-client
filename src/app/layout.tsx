@@ -5,7 +5,7 @@ import { Toaster } from "@/components/ui";
 import { ThemeProvider } from "@/components/theme-provider";
 
 export const metadata: Metadata = {
-  title: "Ollama client",
+  title: "AI Chat Client",
 };
 
 export const viewport: Viewport = {

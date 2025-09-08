@@ -1,12 +1,16 @@
-import ollama from "ollama";
 import prisma from "@/app/lib/prisma";
+import OpenAI from "openai";
 
 import { ChatCreationForm, ChatsList, EmptyChatList } from "./ui";
 import { Page, Body, Header, BackButton } from "@/app/ui";
 import { groupChatsByDate } from "./lib/utils";
+import { OpenAIClient } from "@/app/lib/OpenAIClient";
 
 export default async function ChatListPage() {
-  const { models } = await ollama.list();
+  const openaiModels: Array<OpenAI.Model> = [];
+  for await (const openaiModel of OpenAIClient.models.list()) {
+    openaiModels.push(openaiModel);
+  }
 
   const chats = await prisma.chat.findMany({
     orderBy: {
@@ -26,7 +30,9 @@ export default async function ChatListPage() {
     <Page>
       <Header
         left={<BackButton href="/" />}
-        right={<ChatCreationForm models={models} characters={characters} />}
+        right={
+          <ChatCreationForm models={openaiModels} characters={characters} />
+        }
       >
         Chats
       </Header>
