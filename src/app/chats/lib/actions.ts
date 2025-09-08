@@ -2,9 +2,11 @@
 
 import prisma from "@/app/lib/prisma";
 import { z } from "zod";
-import ollama from "ollama";
+import OpenAI from "openai";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
+
+import { OpenAIClient } from "@/app/lib/OpenAIClient";
 
 export type NewChatFormState = {
   errors?: {
@@ -36,12 +38,15 @@ export const createNewChat = async (
 
   const { model: modelName, character: characterId } = validatedFields.data;
 
-  const { models: ollamaModels } = await ollama.list();
+  const openaiModels: Array<OpenAI.Model> = [];
+  for await (const openaiModel of OpenAIClient.models.list()) {
+    openaiModels.push(openaiModel);
+  }
 
-  const ollamaModel = ollamaModels.find(
-    (ollamaModel) => ollamaModel.name === modelName,
+  const openaiModel = openaiModels.find(
+    (openaiModel) => openaiModel.id === modelName,
   );
-  if (!ollamaModel) {
+  if (!openaiModel) {
     return {
       message: "Invalid model name",
     };

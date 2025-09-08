@@ -5,7 +5,7 @@ import { MessageCircleIcon, CircleUserRoundIcon } from "lucide-react";
 export default async function HomePage() {
   return (
     <Page>
-      <Header>Ollama Client</Header>
+      <Header>AI Chat Client</Header>
 
       <Body>
         <div className="flex flex-col gap-4">

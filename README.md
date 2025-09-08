@@ -1,1 +1,1 @@
-# Ollama client
+# AI Chat Client

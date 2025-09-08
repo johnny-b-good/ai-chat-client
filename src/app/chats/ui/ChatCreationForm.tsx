@@ -1,7 +1,7 @@
 "use client";
 
 import { useActionState, type FC } from "react";
-import { type ModelResponse } from "ollama";
+import OpenAI from "openai";
 import { Plus } from "lucide-react";
 
 import {
@@ -25,7 +25,7 @@ import { createNewChat } from "../lib/actions";
 import { Character } from "@/generated/prisma";
 
 type ChatCreationFormProps = {
-  models: ModelResponse[];
+  models: OpenAI.Model[];
   characters: Character[];
 };
 
@@ -38,7 +38,7 @@ export const ChatCreationForm: FC<ChatCreationFormProps> = ({
     errors: {},
   });
 
-  const modelNames = models.map((model) => model.name);
+  const modelNames = models.map((model) => model.id);
   modelNames.sort();
 
   return (
