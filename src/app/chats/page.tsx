@@ -1,12 +1,27 @@
-import prisma from "@/app/lib/prisma";
 import OpenAI from "openai";
 
-import { ChatCreationForm, ChatsList, EmptyChatList } from "./ui";
-import { Page, Body, Header, BackButton } from "@/app/ui";
-import { groupChatsByDate } from "./lib/utils";
+import prisma from "@/app/lib/prisma";
+import {
+  Page,
+  Body,
+  Header,
+  BackButton,
+  SearchPanel,
+  EmptyList,
+} from "@/app/ui";
 import { OpenAIClient } from "@/app/lib/OpenAIClient";
 
-export default async function ChatListPage() {
+import { ChatCreationForm, ChatsList } from "./ui";
+import { groupChatsByDate } from "./lib/utils";
+
+export default async function ChatListPage(props: {
+  searchParams?: Promise<{
+    query?: string;
+  }>;
+}) {
+  const searchParams = await props.searchParams;
+  const query = searchParams?.query || "";
+
   const openaiModels: Array<OpenAI.Model> = [];
   for await (const openaiModel of OpenAIClient.models.list()) {
     openaiModels.push(openaiModel);
@@ -17,6 +32,21 @@ export default async function ChatListPage() {
       updatedAt: "desc",
     },
     include: { model: true, character: true },
+    where: {
+      OR: [
+        { name: { contains: query } },
+        {
+          character: {
+            name: { contains: query },
+          },
+        },
+        {
+          model: {
+            name: { contains: query },
+          },
+        },
+      ],
+    },
   });
 
   const characters = await prisma.character.findMany();
@@ -27,7 +57,7 @@ export default async function ChatListPage() {
     chatGroups.reduce((acc, group) => acc + group.chats.length, 0) > 0;
 
   return (
-    <Page>
+    <Page className="grid-rows-[min-content_min-content_1fr_min-content]">
       <Header
         left={<BackButton href="/" />}
         right={
@@ -36,12 +66,15 @@ export default async function ChatListPage() {
       >
         Chats
       </Header>
+
+      <SearchPanel />
+
       {areThereAnyChats ? (
         <Body className="flex flex-col">
           <ChatsList chatGroups={chatGroups} />
         </Body>
       ) : (
-        <EmptyChatList />
+        <EmptyList message="No chats found" />
       )}
     </Page>
   );

@@ -2,16 +2,39 @@ import { Plus } from "lucide-react";
 import Link from "next/link";
 
 import prisma from "@/app/lib/prisma";
-import { Page, Body, Header, BackButton } from "@/app/ui";
+import {
+  Page,
+  Body,
+  Header,
+  BackButton,
+  SearchPanel,
+  EmptyList,
+} from "@/app/ui";
 import { Button } from "@/components/ui";
 
 import { CharactersList } from "./ui";
 
-export default async function CharacterListPage() {
-  const characters = await prisma.character.findMany();
+export default async function CharacterListPage(props: {
+  searchParams?: Promise<{
+    query?: string;
+  }>;
+}) {
+  const searchParams = await props.searchParams;
+  const query = searchParams?.query || "";
+
+  const characters = await prisma.character.findMany({
+    orderBy: {
+      updatedAt: "desc",
+    },
+    where: {
+      name: {
+        contains: query,
+      },
+    },
+  });
 
   return (
-    <Page>
+    <Page className="grid-rows-[min-content_min-content_1fr_min-content]">
       <Header
         left={<BackButton href="/" />}
         right={
@@ -25,9 +48,15 @@ export default async function CharacterListPage() {
         Characters
       </Header>
 
-      <Body className="flex flex-col">
-        <CharactersList characters={characters} />
-      </Body>
+      <SearchPanel />
+
+      {characters.length > 0 ? (
+        <Body className="flex flex-col">
+          <CharactersList characters={characters} />
+        </Body>
+      ) : (
+        <EmptyList message="No characters found" />
+      )}
     </Page>
   );
 }

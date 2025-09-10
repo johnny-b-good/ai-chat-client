@@ -7,3 +7,5 @@ export * from "./CharacterAvatar";
 export * from "./MenuButton";
 export * from "./DeletionDialog";
 export * from "./Footer";
+export * from "./SearchPanel";
+export * from "./EmptyList";
