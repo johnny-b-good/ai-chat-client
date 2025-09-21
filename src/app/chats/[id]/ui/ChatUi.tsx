@@ -1,8 +1,9 @@
 "use client";
 
-import { type FC, useRef, useEffect, useState, type FormEvent } from "react";
+import { type FC, useRef, useEffect, useState } from "react";
 import { useChat } from "@ai-sdk/react";
 import { DefaultChatTransport } from "ai";
+import { toast } from "sonner";
 
 import { type Character, type Model, type Chat } from "@/generated/prisma";
 import { Page, Body, Footer } from "@/app/ui";
@@ -35,7 +36,7 @@ export const ChatUi: FC<ChatUiProps> = ({
 
   const [messageInputValue, setMessageInputValue] = useState<string>("");
 
-  const { messages, sendMessage } = useChat({
+  const { messages, sendMessage, status, error } = useChat({
     id: chat.id.toString(),
     messages: initialMessages,
     transport: new DefaultChatTransport({
@@ -51,18 +52,29 @@ export const ChatUi: FC<ChatUiProps> = ({
     }),
   });
 
+  /** Message list container */
   const listRef = useRef<HTMLDivElement>(null);
 
+  // Scroll to the bottom of the chat messages
   useEffect(() => {
     if (listRef.current) {
       listRef.current.scrollTo(0, listRef.current.scrollHeight);
     }
   }, [messages]);
 
+  // Show errors from useChat
+  useEffect(() => {
+    if (error) {
+      toast.error(error.message);
+    }
+  }, [error]);
+
   const aiDisplayName = character?.name ?? model.name;
 
-  const handleSubmit = (ev: FormEvent<HTMLFormElement>) => {
-    ev.preventDefault();
+  const isMessageFormDisabled =
+    status === "streaming" || status === "submitted";
+
+  const handleSubmit = () => {
     sendMessage({ text: messageInputValue });
     setMessageInputValue("");
   };
@@ -112,6 +124,7 @@ export const ChatUi: FC<ChatUiProps> = ({
           value={messageInputValue}
           setValue={setMessageInputValue}
           onSubmit={handleSubmit}
+          disabled={isMessageFormDisabled}
         />
       </Footer>
 
