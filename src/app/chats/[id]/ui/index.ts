@@ -6,3 +6,4 @@ export * from "./ChatUi";
 export * from "./ChatHeader";
 export * from "./ChatSummaryForm";
 export * from "./MarkdownRender";
+export * from "./MessageButtons";
