@@ -18,6 +18,9 @@ import {
   ChatSummaryForm,
 } from ".";
 
+/** How often UI will be updated (in ms) */
+const UI_RENDERING_THROTTLE = 300;
+
 export type ChatUiProps = {
   chat: Chat;
   model: Model;
@@ -49,6 +52,7 @@ export const ChatUi: FC<ChatUiProps> = ({
         };
       },
     }),
+    experimental_throttle: UI_RENDERING_THROTTLE,
   });
 
   /** Message list container */
