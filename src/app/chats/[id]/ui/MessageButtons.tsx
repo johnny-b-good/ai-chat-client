@@ -2,6 +2,7 @@
 
 import { type FC } from "react";
 import { CopyIcon } from "lucide-react";
+import { toast } from "sonner";
 
 import { Button } from "@/components/ui";
 import { cn } from "@/lib/utils";
@@ -17,6 +18,20 @@ export const MessageButtons: FC<MessageButtonsProps> = ({
   className,
   message,
 }) => {
+  const onCopy = () => {
+    const messageText = message.parts
+      .filter((part) => part.type === "text")
+      .map((part) => part.text)
+      .join("\n");
+
+    try {
+      window.navigator.clipboard.writeText(messageText);
+      toast.info("Copied the message");
+    } catch {
+      toast.error("Failed to copy the message");
+    }
+  };
+
   return (
     <div
       className={cn(
@@ -28,12 +43,11 @@ export const MessageButtons: FC<MessageButtonsProps> = ({
       )}
     >
       <Button
+        title="Copy"
         size="icon"
         className="size-6"
         variant="ghost"
-        onClick={() => {
-          alert("copy!");
-        }}
+        onClick={onCopy}
       >
         <CopyIcon className="size-4" />
       </Button>

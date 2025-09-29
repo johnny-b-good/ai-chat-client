@@ -36,7 +36,7 @@ export const MessageBubble: FC<MessageBubbleProps> = ({
       <div
         className={cn(
           "text-muted-foreground absolute -top-5 w-max min-w-full text-xs opacity-0 transition-opacity group-hover:opacity-100",
-          authorType === "ai" ? "left-0" : "right-0",
+          authorType === "ai" ? "left-0 text-left" : "right-0 text-right",
         )}
       >
         {author}, {dayjs(createdAt).format("LLL")}
