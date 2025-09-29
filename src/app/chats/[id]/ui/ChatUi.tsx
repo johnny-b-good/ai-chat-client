@@ -7,7 +7,7 @@ import { toast } from "sonner";
 
 import { type Character, type Model, type Chat } from "@/generated/prisma";
 import { Page, Body, Footer } from "@/app/ui";
-import { UIMessageWithMeta } from "../../lib/types";
+import { type UIMessageWithMeta } from "../../lib/types";
 
 import {
   MessageList,
@@ -16,7 +16,6 @@ import {
   EmptyMessageList,
   ChatHeader,
   ChatSummaryForm,
-  MarkdownRender,
 } from ".";
 
 export type ChatUiProps = {
@@ -69,8 +68,6 @@ export const ChatUi: FC<ChatUiProps> = ({
     }
   }, [error]);
 
-  const aiDisplayName = character?.name ?? model.name;
-
   const isMessageFormDisabled =
     status === "streaming" || status === "submitted";
 
@@ -99,20 +96,10 @@ export const ChatUi: FC<ChatUiProps> = ({
               return (
                 <MessageBubble
                   key={message.id}
-                  author={message.role === "assistant" ? aiDisplayName : "You"}
-                  authorType={message.role === "assistant" ? "ai" : "user"}
-                  createdAt={message.metadata?.createdAt}
-                >
-                  {message.parts.map((part, i) => {
-                    switch (part.type) {
-                      case "text":
-                        return <MarkdownRender key={i} content={part.text} />;
-                      default:
-                        console.warn("Unsupported message part type", part);
-                        return null;
-                    }
-                  })}
-                </MessageBubble>
+                  message={message}
+                  character={character}
+                  model={model}
+                />
               );
             })}
           </MessageList>

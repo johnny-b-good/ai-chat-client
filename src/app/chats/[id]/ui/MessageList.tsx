@@ -6,6 +6,6 @@ export type MessageListProps = {
 
 export const MessageList: FC<MessageListProps> = ({ children }) => {
   return (
-    <div className="relative flex flex-col items-start gap-4">{children}</div>
+    <div className="relative flex flex-col items-start gap-2">{children}</div>
   );
 };
