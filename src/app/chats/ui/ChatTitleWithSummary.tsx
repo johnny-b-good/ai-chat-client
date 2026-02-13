@@ -2,7 +2,7 @@
 
 import { type FC } from "react";
 
-import { Chat } from "@/generated/prisma";
+import { Chat } from "@/generated/prisma/client";
 import { HoverCard, HoverCardContent, HoverCardTrigger } from "@/components/ui";
 
 export type ChatTitleWithSummaryProps = {

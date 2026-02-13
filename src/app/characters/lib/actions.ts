@@ -5,7 +5,7 @@ import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 
 import prisma from "@/app/lib/prisma";
-import { Character } from "@/generated/prisma";
+import { Character } from "@/generated/prisma/client";
 
 const CharacterEditorFormSchema = z.object({
   name: z.string().min(1, "Name is required").max(100),

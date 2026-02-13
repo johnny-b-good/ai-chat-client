@@ -4,7 +4,7 @@ import localizedFormat from "dayjs/plugin/localizedFormat";
 
 import { cn } from "@/lib/utils";
 import { UIMessageWithMeta } from "../../lib/types";
-import { Character, Model } from "@/generated/prisma";
+import { Character, Model } from "@/generated/prisma/client";
 import { MessageButtons } from "./MessageButtons";
 import { MarkdownRender } from "./MarkdownRender";
 

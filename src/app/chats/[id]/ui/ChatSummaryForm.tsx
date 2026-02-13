@@ -25,7 +25,7 @@ import {
   Textarea,
 } from "@/components/ui";
 import { summarizeChat, updateChat } from "../lib/actions";
-import { type Chat } from "@/generated/prisma";
+import { type Chat } from "@/generated/prisma/client";
 
 type ChatSummaryFormProps = {
   chat: Chat;

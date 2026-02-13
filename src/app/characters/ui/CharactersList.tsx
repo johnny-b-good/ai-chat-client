@@ -5,7 +5,7 @@ import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 import { TrashIcon } from "lucide-react";
 
-import { Character } from "@/generated/prisma";
+import { Character } from "@/generated/prisma/client";
 import { List, CharacterAvatar, DeletionDialog } from "@/app/ui";
 
 import { deleteCharacter } from "../lib/actions";

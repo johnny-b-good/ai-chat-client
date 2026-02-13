@@ -1,7 +1,7 @@
 import { type FC } from "react";
 
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui";
-import { type Character } from "@/generated/prisma";
+import { type Character } from "@/generated/prisma/client";
 import { cn } from "@/lib/utils";
 
 export type CharacterAvatarProps = {

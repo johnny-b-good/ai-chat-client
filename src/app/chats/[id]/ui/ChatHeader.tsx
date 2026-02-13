@@ -2,7 +2,11 @@ import { type FC } from "react";
 import { PenIcon } from "lucide-react";
 
 import { Header, BackButton, CharacterAvatar, MenuButton } from "@/app/ui";
-import { type Character, type Model, type Chat } from "@/generated/prisma";
+import {
+  type Character,
+  type Model,
+  type Chat,
+} from "@/generated/prisma/client";
 
 import { ChatTitleWithSummary } from "../../ui";
 

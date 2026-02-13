@@ -22,7 +22,7 @@ import {
   Label,
 } from "@/components/ui";
 import { createNewChat } from "../lib/actions";
-import { Character } from "@/generated/prisma";
+import { Character } from "@/generated/prisma/client";
 
 type ChatCreationFormProps = {
   models: OpenAI.Model[];

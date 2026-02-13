@@ -14,7 +14,7 @@ import {
   AlertDescription,
   AlertTitle,
 } from "@/components/ui";
-import { Character } from "@/generated/prisma";
+import { Character } from "@/generated/prisma/client";
 import { type CharacterEditorFormState } from "@/app/characters/lib/actions";
 import { CharacterAvatar } from "@/app/ui";
 
