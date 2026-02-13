@@ -9,11 +9,11 @@
     "lint": "eslint"
   },
   "dependencies": {
-    "@ai-sdk/openai": "^2.0.32",
-    "@ai-sdk/react": "^2.0.48",
+    "@ai-sdk/openai": "^3.0.28",
+    "@ai-sdk/react": "^3.0.87",
     "@heroicons/react": "^2.2.0",
     "@prisma/client": "^6.16.2",
-    "ai": "^5.0.34",
+    "ai": "^6.0.85",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "dayjs": "^1.11.18",

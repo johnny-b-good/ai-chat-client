@@ -95,6 +95,10 @@ export const normalizeMessages = async (
     allMessages.push(newMessage);
   }
 
+  if (allMessages.length === 0) {
+    return [];
+  }
+
   return await validateUIMessages({
     messages: allMessages,
   });

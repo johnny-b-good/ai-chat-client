@@ -65,8 +65,12 @@ export async function POST(request: Request) {
   const result = streamText({
     model: openai.chat(model.name),
     system: character?.systemPrompt,
-    messages: convertToModelMessages(messages),
+    messages: await convertToModelMessages(messages),
   });
+
+  // Consume the stream to ensure it runs to completion & triggers onFinish
+  // even when the client response is aborted:
+  result.consumeStream(); // no await
 
   return result.toUIMessageStreamResponse({
     onFinish: async ({ responseMessage }) => {

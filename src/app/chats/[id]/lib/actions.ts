@@ -3,7 +3,7 @@
 import prisma from "@/app/lib/prisma";
 import { z } from "zod";
 import { revalidatePath } from "next/cache";
-import { generateObject } from "ai";
+import { generateText, Output } from "ai";
 
 import { openai } from "@/app/lib/openai";
 import { normalizeMessages } from "../../lib/utils";
@@ -67,22 +67,22 @@ export const summarizeChat = async (id: number): Promise<SummaryResult> => {
 
   try {
     const {
-      object: { name, summary },
-    } = await generateObject({
+      output: { name, summary },
+    } = await generateText({
       model: openai.chat(process.env.SUMMARIZE_MODEL),
-      output: "object",
-      mode: "json",
-      schema: z.object({
-        name: z
-          .string()
-          .describe(
-            "A title suitable for this chat. Should be a single short sentence describing the topic of the chat containing maxiumum of ten words.",
-          ),
-        summary: z
-          .string()
-          .describe(
-            "A short summary describing most important topics, events, reactions that occured in this chat. Summary should be a short paragraph, containing maximum of 5-7 sentences.",
-          ),
+      output: Output.object({
+        schema: z.object({
+          name: z
+            .string()
+            .describe(
+              "A title suitable for this chat. Should be a single short sentence describing the topic of the chat containing maxiumum of ten words.",
+            ),
+          summary: z
+            .string()
+            .describe(
+              "A short summary describing most important topics, events, reactions that occured in this chat. Summary should be a short paragraph, containing maximum of 5-7 sentences.",
+            ),
+        }),
       }),
       prompt: `Generate a JSON object strictly following supplied schema for the following dialog:\n${chatLog}`,
     });
