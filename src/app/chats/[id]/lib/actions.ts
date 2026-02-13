@@ -69,7 +69,7 @@ export const summarizeChat = async (id: number): Promise<SummaryResult> => {
     const {
       output: { name, summary },
     } = await generateText({
-      model: openai.chat(process.env.SUMMARIZE_MODEL),
+      model: openai.chatModel(process.env.SUMMARIZE_MODEL),
       output: Output.object({
         schema: z.object({
           name: z

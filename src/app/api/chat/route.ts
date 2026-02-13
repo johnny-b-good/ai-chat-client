@@ -63,7 +63,7 @@ export async function POST(request: Request) {
   });
 
   const result = streamText({
-    model: openai.chat(model.name),
+    model: openai.chatModel(model.name),
     system: character?.systemPrompt,
     messages: await convertToModelMessages(messages),
   });
