@@ -43,11 +43,13 @@ export const ChatCreationForm: FC<ChatCreationFormProps> = ({
 
   return (
     <Dialog>
-      <DialogTrigger asChild>
-        <Button variant="ghost" size="icon">
-          <Plus className="text-primary size-6" />
-        </Button>
-      </DialogTrigger>
+      <DialogTrigger
+        render={
+          <Button variant="ghost" size="icon">
+            <Plus className="text-primary size-6" />
+          </Button>
+        }
+      />
 
       <DialogContent>
         <form action={formAction}>
@@ -99,9 +101,7 @@ export const ChatCreationForm: FC<ChatCreationFormProps> = ({
           </div>
 
           <DialogFooter>
-            <DialogClose asChild>
-              <Button variant="outline">Cancel</Button>
-            </DialogClose>
+            <DialogClose render={<Button variant="outline">Cancel</Button>} />
 
             <Button type="submit">Create</Button>
           </DialogFooter>

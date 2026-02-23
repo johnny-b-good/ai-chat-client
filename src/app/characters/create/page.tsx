@@ -1,11 +1,11 @@
 import { CharacterEditorForm } from "@/app/characters/ui";
 import { createCharacter } from "@/app/characters/lib/actions";
-import { Page, Body, Header, BackButton } from "@/app/ui";
+import { Page, Body, Header, LinkButton } from "@/app/ui";
 
 export default async function CharacterCreatePage() {
   return (
     <Page>
-      <Header left={<BackButton href="/characters" />}>
+      <Header left={<LinkButton href="/characters" />}>
         Create a new character
       </Header>
       <Body>

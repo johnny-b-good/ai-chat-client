@@ -1,7 +1,7 @@
 import { type FC } from "react";
 import { PenIcon } from "lucide-react";
 
-import { Header, BackButton, CharacterAvatar, MenuButton } from "@/app/ui";
+import { Header, LinkButton, CharacterAvatar, MenuButton } from "@/app/ui";
 import {
   type Character,
   type Model,
@@ -25,7 +25,7 @@ export const ChatHeader: FC<ChatHeaderProps> = ({
 }) => {
   return (
     <Header
-      left={<BackButton href="/chats" />}
+      left={<LinkButton href="/chats" />}
       right={
         <MenuButton
           context={undefined}

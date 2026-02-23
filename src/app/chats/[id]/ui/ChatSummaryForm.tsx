@@ -147,11 +147,13 @@ export const ChatSummaryForm: FC<ChatSummaryFormProps> = ({
 
             <div className="flex-1" />
 
-            <DialogClose asChild>
-              <Button variant="outline" disabled={isDisabled}>
-                Cancel
-              </Button>
-            </DialogClose>
+            <DialogClose
+              render={
+                <Button variant="outline" disabled={isDisabled}>
+                  Cancel
+                </Button>
+              }
+            />
 
             <Button type="submit" disabled={isDisabled}>
               {isUpdatingChat ? (
