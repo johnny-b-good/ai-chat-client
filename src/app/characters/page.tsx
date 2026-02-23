@@ -1,5 +1,4 @@
 import { Plus } from "lucide-react";
-import Link from "next/link";
 
 import prisma from "@/app/lib/prisma";
 import {
@@ -10,7 +9,6 @@ import {
   SearchPanel,
   EmptyList,
 } from "@/app/ui";
-import { buttonVariants } from "@/components/ui";
 
 import { CharactersList } from "./ui";
 
