@@ -22,10 +22,10 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className="bg-page text-foreground antialiased"
+      className="text-foreground bg-page antialiased"
       suppressHydrationWarning
     >
-      <body className="bg-page">
+      <body className="text-foreground bg-page antialiased">
         <ThemeProvider
           attribute="class"
           defaultTheme="system"

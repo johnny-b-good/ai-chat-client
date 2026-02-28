@@ -18,12 +18,12 @@ export type ListProps = {
 
 export const List: FC<ListProps> = ({ items, itemActions }) => {
   return (
-    <div className="bg-card relative grid max-h-full min-h-0 w-full rounded shadow">
+    <div className="bg-card relative grid max-h-full min-h-0 w-full rounded-lg shadow">
       {items.map((item) => {
         return (
           <div
             key={item.id}
-            className="border-b-border hover:bg-accent grid grid-cols-[1fr_min-content] gap-4 px-4 py-2 transition-colors not-last:border-b"
+            className="border-b-border hover:bg-accent grid grid-cols-[1fr_min-content] gap-4 px-4 py-2 transition-colors not-last:border-b first:rounded-t-lg last:rounded-b-lg"
           >
             <Link
               href={item.url}
