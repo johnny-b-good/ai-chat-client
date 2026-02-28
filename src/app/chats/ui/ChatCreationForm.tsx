@@ -41,6 +41,11 @@ export const ChatCreationForm: FC<ChatCreationFormProps> = ({
   const modelNames = models.map((model) => model.id);
   modelNames.sort();
 
+  const charactesToSelect = characters.map((char) => ({
+    value: char.id,
+    label: char.name,
+  }));
+
   return (
     <Dialog>
       <DialogTrigger
@@ -81,15 +86,15 @@ export const ChatCreationForm: FC<ChatCreationFormProps> = ({
 
             <div className="grid gap-2">
               <Label htmlFor="character">Character</Label>
-              <Select name="character">
+              <Select name="character" items={charactesToSelect}>
                 <SelectTrigger className="w-full">
                   <SelectValue placeholder="Select a character" />
                 </SelectTrigger>
                 <SelectContent>
-                  {characters.map((char) => {
+                  {charactesToSelect.map((char) => {
                     return (
-                      <SelectItem key={char.id} value={char.id.toString()}>
-                        {char.name}
+                      <SelectItem key={char.value} value={char.value}>
+                        {char.label}
                       </SelectItem>
                     );
                   })}
