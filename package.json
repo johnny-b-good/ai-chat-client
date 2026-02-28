@@ -38,7 +38,7 @@
     "@tailwindcss/postcss": "^4.1.18",
     "@tailwindcss/typography": "^0.5.19",
     "@types/better-sqlite3": "^7.6.13",
-    "@types/node": "^20",
+    "@types/node": "^24.11.0",
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "eslint": "^9",
