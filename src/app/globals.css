@@ -49,9 +49,9 @@
   --radius-4xl: calc(var(--radius) + 16px);
 
   /* Custom variables */
-  --color-page: var(--muted);
-  --color-primary-card: var(--primary);
-  --color-primary-card-foreground: var(--primary-foreground);
+  --color-page: var(--page);
+  --color-primary-card: var(--primary-card);
+  --color-primary-card-foreground: var(--primary-card-foreground);
 }
 
 :root {
@@ -87,6 +87,11 @@
   --sidebar-accent-foreground: oklch(0.205 0 0);
   --sidebar-border: oklch(0.922 0 0);
   --sidebar-ring: oklch(0.708 0 0);
+
+  /* Custom variables */
+  --page: var(--muted);
+  --primary-card: var(--primary);
+  --primary-card-foreground: white;
 }
 
 .dark {
@@ -121,6 +126,11 @@
   --sidebar-accent-foreground: oklch(0.985 0 0);
   --sidebar-border: oklch(1 0 0 / 10%);
   --sidebar-ring: oklch(0.556 0 0);
+
+  /* Custom variables */
+  --page: var(--background);
+  --primary-card: var(--primary);
+  --primary-card-foreground: white;
 }
 
 @layer base {

@@ -20,12 +20,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html
-      lang="en"
-      className="text-foreground bg-page antialiased"
-      suppressHydrationWarning
-    >
-      <body className="text-foreground bg-page antialiased">
+    <html lang="en" className="bg-page antialiased" suppressHydrationWarning>
+      <body className="bg-page antialiased">
         <ThemeProvider
           attribute="class"
           defaultTheme="system"
