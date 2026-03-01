@@ -1,7 +1,7 @@
 import dayjs from "dayjs";
 import { validateUIMessages } from "ai";
 
-import { type Chat, type Message } from "@/generated/prisma";
+import { type Chat, type Message } from "@/generated/prisma/client";
 import { type ChatGroup, type UIMessageWithMeta } from "./types";
 
 /**
@@ -93,6 +93,10 @@ export const normalizeMessages = async (
 
   if (newMessage) {
     allMessages.push(newMessage);
+  }
+
+  if (allMessages.length === 0) {
+    return [];
   }
 
   return await validateUIMessages({

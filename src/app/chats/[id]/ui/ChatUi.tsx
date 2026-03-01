@@ -5,7 +5,11 @@ import { useChat } from "@ai-sdk/react";
 import { DefaultChatTransport } from "ai";
 import { toast } from "sonner";
 
-import { type Character, type Model, type Chat } from "@/generated/prisma";
+import {
+  type Character,
+  type Model,
+  type Chat,
+} from "@/generated/prisma/client";
 import { Page, Body, Footer } from "@/app/ui";
 import { type UIMessageWithMeta } from "../../lib/types";
 

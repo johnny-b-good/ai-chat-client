@@ -5,7 +5,7 @@ import {
   Page,
   Body,
   Header,
-  BackButton,
+  LinkButton,
   SearchPanel,
   EmptyList,
 } from "@/app/ui";
@@ -59,7 +59,7 @@ export default async function ChatListPage(props: {
   return (
     <Page className="grid-rows-[min-content_min-content_1fr_min-content]">
       <Header
-        left={<BackButton href="/" />}
+        left={<LinkButton href="/" />}
         right={
           <ChatCreationForm models={openaiModels} characters={characters} />
         }

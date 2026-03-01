@@ -1,16 +1,14 @@
 import { Plus } from "lucide-react";
-import Link from "next/link";
 
 import prisma from "@/app/lib/prisma";
 import {
   Page,
   Body,
   Header,
-  BackButton,
+  LinkButton,
   SearchPanel,
   EmptyList,
 } from "@/app/ui";
-import { Button } from "@/components/ui";
 
 import { CharactersList } from "./ui";
 
@@ -36,13 +34,12 @@ export default async function CharacterListPage(props: {
   return (
     <Page className="grid-rows-[min-content_min-content_1fr_min-content]">
       <Header
-        left={<BackButton href="/" />}
+        left={<LinkButton href="/" />}
         right={
-          <Button variant="ghost" asChild>
-            <Link href="/characters/create">
-              <Plus className="text-primary size-6" />
-            </Link>
-          </Button>
+          <LinkButton
+            href="/characters/create"
+            icon={<Plus className="text-primary size-6" />}
+          />
         }
       >
         Characters

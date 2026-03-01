@@ -2,7 +2,7 @@
 
 import { type FC } from "react";
 
-import { Chat } from "@/generated/prisma";
+import { Chat } from "@/generated/prisma/client";
 import { HoverCard, HoverCardContent, HoverCardTrigger } from "@/components/ui";
 
 export type ChatTitleWithSummaryProps = {
@@ -14,9 +14,9 @@ export const ChatTitleWithSummary: FC<ChatTitleWithSummaryProps> = ({
 }) => {
   return (
     <HoverCard>
-      <HoverCardTrigger className="max-w-full truncate" asChild>
-        <div>{chat.name}</div>
-      </HoverCardTrigger>
+      <HoverCardTrigger
+        render={<div className="max-w-full truncate">{chat.name}</div>}
+      />
 
       <HoverCardContent className="w-96" side="bottom" align="start">
         <div className="flex flex-col gap-1">

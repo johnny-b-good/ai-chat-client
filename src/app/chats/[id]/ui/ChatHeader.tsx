@@ -1,8 +1,12 @@
 import { type FC } from "react";
 import { PenIcon } from "lucide-react";
 
-import { Header, BackButton, CharacterAvatar, MenuButton } from "@/app/ui";
-import { type Character, type Model, type Chat } from "@/generated/prisma";
+import { Header, LinkButton, CharacterAvatar, MenuButton } from "@/app/ui";
+import {
+  type Character,
+  type Model,
+  type Chat,
+} from "@/generated/prisma/client";
 
 import { ChatTitleWithSummary } from "../../ui";
 
@@ -21,7 +25,7 @@ export const ChatHeader: FC<ChatHeaderProps> = ({
 }) => {
   return (
     <Header
-      left={<BackButton href="/chats" />}
+      left={<LinkButton href="/chats" />}
       right={
         <MenuButton
           context={undefined}

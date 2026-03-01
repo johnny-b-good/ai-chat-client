@@ -1,7 +1,5 @@
 export * from "./button";
 export * from "./select";
-export * from "./table";
-export * from "./separator";
 export * from "./avatar";
 export * from "./textarea";
 export * from "./scroll-area";
@@ -11,7 +9,4 @@ export * from "./alert";
 export * from "./dialog";
 export * from "./dropdown-menu";
 export * from "./sonner";
-export * from "./tooltip";
-export * from "./popover";
 export * from "./hover-card";
-export * from "./card";

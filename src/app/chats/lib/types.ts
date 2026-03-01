@@ -1,6 +1,10 @@
 import { type UIMessage } from "ai";
 
-import { type Character, type Chat, type Model } from "@/generated/prisma";
+import {
+  type Character,
+  type Chat,
+  type Model,
+} from "@/generated/prisma/client";
 
 export type ChatWithRelated = Chat & {
   model: Model;

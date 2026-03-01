@@ -4,7 +4,7 @@ import localizedFormat from "dayjs/plugin/localizedFormat";
 
 import { cn } from "@/lib/utils";
 import { UIMessageWithMeta } from "../../lib/types";
-import { Character, Model } from "@/generated/prisma";
+import { Character, Model } from "@/generated/prisma/client";
 import { MessageButtons } from "./MessageButtons";
 import { MarkdownRender } from "./MarkdownRender";
 
@@ -29,8 +29,10 @@ export const MessageBubble: FC<MessageBubbleProps> = ({
   return (
     <div
       className={cn(
-        "group relative mt-5 mb-7 max-w-11/12 rounded-sm px-4 py-3 text-sm shadow",
-        authorType === "ai" ? "bg-card self-start" : "bg-primary-card self-end",
+        "group relative mt-5 mb-7 max-w-11/12 rounded-lg px-4 py-3 text-sm shadow",
+        authorType === "ai"
+          ? "bg-card text-card-foreground self-start"
+          : "bg-primary-card text-primary-card-foreground self-end",
       )}
     >
       <div
@@ -42,7 +44,12 @@ export const MessageBubble: FC<MessageBubbleProps> = ({
         {author}, {dayjs(createdAt).format("LLL")}
       </div>
 
-      <div className="prose prose-sm dark:prose-invert">
+      <div
+        className={cn(
+          authorType === "ai" &&
+            "prose dark:prose-invert prose-neutral prose-sm",
+        )}
+      >
         {message.parts.map((part, i) => {
           switch (part.type) {
             case "text":

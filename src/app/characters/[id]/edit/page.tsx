@@ -3,7 +3,7 @@ import { notFound } from "next/navigation";
 
 import { CharacterEditorForm } from "@/app/characters/ui";
 import { updateCharacter } from "@/app/characters/lib/actions";
-import { Page, Body, Header, BackButton } from "@/app/ui";
+import { Page, Body, Header, LinkButton } from "@/app/ui";
 
 export default async function CharacterEditPage(props: {
   params: Promise<{ id: string }>;
@@ -23,7 +23,7 @@ export default async function CharacterEditPage(props: {
 
   return (
     <Page>
-      <Header left={<BackButton href="/characters" />}>
+      <Header left={<LinkButton href="/characters" />}>
         Edit character {character.name}
       </Header>
       <Body>

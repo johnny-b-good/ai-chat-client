@@ -24,11 +24,13 @@ export interface MenuButtonProps<T> {
 export const MenuButton = <T,>({ actions, context }: MenuButtonProps<T>) => {
   return (
     <DropdownMenu>
-      <DropdownMenuTrigger asChild>
-        <Button variant="ghost" size="icon">
-          <EllipsisIcon className="text-primary size-4" />
-        </Button>
-      </DropdownMenuTrigger>
+      <DropdownMenuTrigger
+        render={
+          <Button variant="ghost" size="icon">
+            <EllipsisIcon className="text-primary size-4" />
+          </Button>
+        }
+      />
 
       <DropdownMenuContent align="end">
         <DropdownMenuGroup>

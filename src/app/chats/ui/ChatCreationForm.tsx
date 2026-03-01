@@ -22,7 +22,7 @@ import {
   Label,
 } from "@/components/ui";
 import { createNewChat } from "../lib/actions";
-import { Character } from "@/generated/prisma";
+import { Character } from "@/generated/prisma/client";
 
 type ChatCreationFormProps = {
   models: OpenAI.Model[];
@@ -41,13 +41,20 @@ export const ChatCreationForm: FC<ChatCreationFormProps> = ({
   const modelNames = models.map((model) => model.id);
   modelNames.sort();
 
+  const charactesToSelect = characters.map((char) => ({
+    value: char.id,
+    label: char.name,
+  }));
+
   return (
     <Dialog>
-      <DialogTrigger asChild>
-        <Button variant="ghost" size="icon">
-          <Plus className="text-primary size-6" />
-        </Button>
-      </DialogTrigger>
+      <DialogTrigger
+        render={
+          <Button variant="ghost" size="icon">
+            <Plus className="text-primary size-6" />
+          </Button>
+        }
+      />
 
       <DialogContent>
         <form action={formAction}>
@@ -79,15 +86,15 @@ export const ChatCreationForm: FC<ChatCreationFormProps> = ({
 
             <div className="grid gap-2">
               <Label htmlFor="character">Character</Label>
-              <Select name="character">
+              <Select name="character" items={charactesToSelect}>
                 <SelectTrigger className="w-full">
                   <SelectValue placeholder="Select a character" />
                 </SelectTrigger>
                 <SelectContent>
-                  {characters.map((char) => {
+                  {charactesToSelect.map((char) => {
                     return (
-                      <SelectItem key={char.id} value={char.id.toString()}>
-                        {char.name}
+                      <SelectItem key={char.value} value={char.value}>
+                        {char.label}
                       </SelectItem>
                     );
                   })}
@@ -99,9 +106,7 @@ export const ChatCreationForm: FC<ChatCreationFormProps> = ({
           </div>
 
           <DialogFooter>
-            <DialogClose asChild>
-              <Button variant="outline">Cancel</Button>
-            </DialogClose>
+            <DialogClose render={<Button variant="outline">Cancel</Button>} />
 
             <Button type="submit">Create</Button>
           </DialogFooter>
