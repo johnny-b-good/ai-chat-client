@@ -64,7 +64,7 @@ export async function POST(request: Request) {
 
   const result = streamText({
     model: openai.chatModel(model.name),
-    system: character?.systemPrompt,
+    instructions: character?.systemPrompt,
     messages: await convertToModelMessages(messages),
   });
 
@@ -73,7 +73,7 @@ export async function POST(request: Request) {
   result.consumeStream(); // no await
 
   return result.toUIMessageStreamResponse({
-    onFinish: async ({ responseMessage }) => {
+    onEnd: async ({ responseMessage }) => {
       await prisma.message.create({
         data: {
           chatId: chat.id,
